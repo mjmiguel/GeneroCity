@@ -1,15 +1,15 @@
+/*** NOTE: This controller is bypassed by migrating filter functionality to the frontend ***/
+
 /* eslint-disable function-paren-newline */
-const express = require('express');
+// const express = require('express');
 
-const FilterController = require('../controllers/FilterController.js');
+// const FilterController = require('../controllers/FilterController.js');
 
-const router = express.Router();
+// const router = express.Router();
 
+// //***** STRETCH FEATURES *****//
+// router.get('/:column/:filterBy', FilterController.filterByCategory, (req, res, next) => {
+//   res.status(200).json(res.locals);
+// })
 
-//***** STRETCH FEATURES *****//
-router.get('/:column/:filterBy', FilterController.filterByCategory, (req, res, next) => {
-  res.status(200).json(res.locals);
-})
-
-
-module.exports = router;
+// module.exports = router;

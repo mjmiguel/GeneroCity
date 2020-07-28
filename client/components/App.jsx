@@ -19,6 +19,8 @@ class App extends Component {
       // store most state in App component, make available to child components as props
       isloggedIn: false,
       allItems: [], // (each item is an object)
+      displayedItems: [],
+      displayCat: 'All',
       userEmail: 'Dave',
       userPoints: '',
       userFirstName: 'Dave',
@@ -62,8 +64,8 @@ class App extends Component {
     e.preventDefault();
     const newUserMessages = [...this.state.msgRooms];
     newUserMessages.push(`Owner of ${e.target.value}`);
-    this.setState({ msgRooms: newUserMessages })
-    this.props.history.push('/messages')
+    this.setState({ msgRooms: newUserMessages });
+    this.props.history.push('/messages');
   }
   /*----------- handle file change (image input) (AddItem)-----------------*/
 
@@ -81,17 +83,21 @@ class App extends Component {
   handleFilterChange(e) {
     e.preventDefault();
     const categoryName = e.target.value;
-    const url = '/filter/category/';
-    if (!categoryName) { this.getAllItems() }
-    fetch(path.resolve(url, categoryName))
-      .then((res) => res.json())
-      .then((res) => {
-        console.log('res', res);
-        this.setState({ allItems: res.items });
-      })
-      .catch((err) => {
-        console.log('/filter/category GET error: ', err);
+    const allItems = this.state.allItems;
+    let displayedItems = [];
+
+    if (!categoryName || categoryName === 'All') {
+      displayedItems = [...this.state.allItems];
+      this.setState({ displayCat: 'All', displayedItems });
+    } else {
+      allItems.forEach((item) => {
+        if (item.category === categoryName) displayedItems.push(item);
       });
+      this.setState({
+        displayCat: categoryName,
+        displayedItems: displayedItems,
+      });
+    }
   }
 
   /*---- POST request to add item to server---- */
@@ -126,7 +132,6 @@ class App extends Component {
       });
   }
 
- 
   /*--- POST request to /LOG-IN---- */
   handleLoginSubmit(e) {
     e.preventDefault();
@@ -137,20 +142,20 @@ class App extends Component {
     fetch('/log-in', {
       method: 'POST',
       headers: {
-        "Content-Type": "Application/JSON"
+        'Content-Type': 'Application/JSON',
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     })
-      .then(res => {
-        console.log("res in /log-in", res);
+      .then((res) => {
+        console.log('res in /log-in', res);
         res.json();
 
-        this.setState({ isLoggedIn: true, password: '' })
-        this.props.history.push('/')
+        this.setState({ isLoggedIn: true, password: '' });
+        this.props.history.push('/');
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('/LOG-IN Post error: ', err);
-        this.setState({ userEmail: '', password: '' })
+        this.setState({ userEmail: '', password: '' });
       });
   }
 
@@ -158,16 +163,7 @@ class App extends Component {
   handleSignUpSubmit(e) {
     e.preventDefault();
 
-    const {
-      userFirstName,
-      userLastName,
-      password,
-      userEmail,
-      userStreet,
-      userState,
-      userCity,
-      userZip,
-    } = this.state;
+    const { userFirstName, userLastName, password, userEmail, userStreet, userState, userCity, userZip } = this.state;
     const body = {
       email: userEmail,
       password,
@@ -181,26 +177,25 @@ class App extends Component {
 
     console.log('submit signUp req body:', body);
 
-
     fetch('/user/signup', {
       method: 'POST',
       headers: {
-        "Content-Type": "Application/JSON"
+        'Content-Type': 'Application/JSON',
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     })
-      .then(res => res.json())
+      .then((res) => res.json())
       // TODO: setState with isLoggedIn, clear pw
       // return to home page
-      .then(res => {
-        console.log('res', res);
-        this.props.history.push('/')
+      .then((res) => {
+        // console.log('res', res);
+        this.props.history.push('/');
         // this.setState({})
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('AddItem Post error: ', err);
         // todo - clear all fields with setState
-        this.setState({})
+        this.setState({});
       });
   }
 
@@ -221,13 +216,14 @@ class App extends Component {
   // }
 
   /*--- GET Request for All items--- */
-  getAllItems() { // call in componentDidMount
+  getAllItems() {
+    // call in componentDidMount
     fetch('/item/all')
       .then((res) => res.json())
       .then((res) => {
-        console.log('res', res);
+        console.log('res', res.items);
         // update state with array
-        this.setState({ allItems: res.items });
+        this.setState({ allItems: res.items, displayedItems: res.items, displayCat: '' });
       })
       // this.props.history.push('/'))
       .catch((err) => {
@@ -258,7 +254,6 @@ class App extends Component {
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
-
               <li className="nav-item active">
                 <NavLink to="/profile" className="nav-link">
                   Profile
@@ -269,18 +264,18 @@ class App extends Component {
                   Messages
                 </NavLink>
               </li>
-  
+
               <div id="filterBox">
                 <select
                   className="form-control"
                   id="exampleFormControlSelect1"
                   name="itemCategory"
-                  onChange={e => {
+                  value={this.state.displayCat}
+                  onChange={(e) => {
                     this.handleFilterChange(e);
                   }}
                 >
-                  <option>Category</option>
-                  <option value="">All</option>
+                  <option value="All">All Categories</option>
                   <option value="Appliances">Appliances</option>
                   <option value="Plants">Plants</option>
                   <option value="Sports">Sports</option>
@@ -312,7 +307,7 @@ class App extends Component {
             render={(props) => (
               <Home
                 {...props}
-                allItems={this.state.allItems}
+                displayedItems={this.state.displayedItems}
                 userItems={this.state.userItems}
                 userEmail={this.state.userEmail}
                 userAddress={this.state.userAddress}
@@ -386,13 +381,7 @@ class App extends Component {
           <Route
             exact
             path="/messages"
-            render={(props) => (
-              <Messages
-                {...props}
-                msgRooms={this.state.msgRooms}
-                userEmail={this.state.userEmail}
-              />
-            )}
+            render={(props) => <Messages {...props} msgRooms={this.state.msgRooms} userEmail={this.state.userEmail} />}
           />
         </Switch>
       </div>
