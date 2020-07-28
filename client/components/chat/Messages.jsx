@@ -4,11 +4,7 @@ import Chat from './Chat.jsx'
 
 const Messages = (props) => {
   const [currentRoom, setRoom] = useState('no one');
-
-
   const changeRoom = e => setRoom(e.target.value);
-
-
 /*--- Ultimately, 'listOfRooms' is intended to store a list of references to the
     user-to-user socket.io connections (aka 'rooms')
     that the current user has ever made. These would be stored in and fetched from the DB, 
