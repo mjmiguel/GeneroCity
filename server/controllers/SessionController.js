@@ -26,12 +26,12 @@ SessionController.startSession = async (req, res, next) => {
  */
 SessionController.isLoggedIn = async (req, res, next) => {
   // query database for cookie ssid *SSID is also the mongoose ID
+  console.log('req.cookies in isLogged in', req.cookies);
   const { ssid } = req.cookies;
-  console.log('req.cookies', req.cookies);
   const sessionJoinQuery = `
   SELECT u.*, s.*
-  FROM public.users u
-  RIGHT OUTER JOIN public.sessions s
+  FROM users u
+  RIGHT OUTER JOIN sessions s
   ON u._id = s.user_id
   WHERE (s.cookie = '${ssid}')`;
 
