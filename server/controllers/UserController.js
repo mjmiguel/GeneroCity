@@ -1,12 +1,11 @@
 const db = require('../models/Models');
 const bcrypt = require('bcryptjs');
-const SALT_WORK_FACTOR = 10; // should be at least 10
+const SALT_WORK_FACTOR = 10 // should be at least 10
 
 const UserController = {};
 
 UserController.getUserItems = (req, res, next) => {
   // console.log(`req.params.id`, req.params.user);
-  console.log(req.body);
   const { user_id } = req.params;
   // console.log('user', user_id);
 
@@ -28,18 +27,18 @@ UserController.getUserItems = (req, res, next) => {
 };
 
 UserController.createUser = async (req, res, next) => {
-  console.log('req body in create ', req.body);
   const { userEmail, password, firstName, lastName, zipCode, street, city, state } = req.body;
   try {
     // if user is in database, send res of user exists
     const findUser = `SELECT email, password FROM users WHERE (email = '${userEmail}');`;
     const user = await db.query(findUser);
-    console.log('found user ', user.rows[0]);
+    console.log('found user ', user.rows[0])
     if (user.rows[0]) return res.status(200).send(`${userEmail} already exists`);
 
     // create address in db
     const createAddressQuery = {
-      text: 'INSERT INTO public.address(zipcode, street, city, state) VALUES($1, $2, $3, $4) RETURNING *',
+      text:
+        'INSERT INTO public.address(zipcode, street, city, state) VALUES($1, $2, $3, $4) RETURNING *',
       values: [zipCode, street, city, state],
     };
 
@@ -50,19 +49,19 @@ UserController.createUser = async (req, res, next) => {
       try {
         if (err) return next(err);
         let hashedPassword = hash;
-
+  
         // create user, use incoming address_id
         const createUserQuery = {
           text:
             'INSERT INTO public.users("email", "firstName", "lastName", "password", "address_id") VALUES($1, $2, $3, $4, $5) RETURNING *',
           values: [userEmail, firstName, lastName, hashedPassword, address.rows[0]._id],
         };
-
+        
         let newUser = await db.query(createUserQuery);
 
         res.locals.newUser = newUser.rows[0];
         return next();
-      } catch (e) {
+      } catch(e) {
         return next(e);
       }
     });
@@ -79,14 +78,18 @@ UserController.createUser = async (req, res, next) => {
 
 UserController.verifyUser = async (req, res, next) => {
   const { userEmail, password } = req.body;
-
+  
+  const findUserQuery = `
+  SELECT u._id, u.email, u.password, a.street, a.city, a.state, a.zipcode 
+  FROM users u 
+  INNER JOIN address a ON u.address_id=a._id WHERE email = $1;`
+  const values = [userEmail];
   try {
-    const findUser = `SELECT _id, email, password FROM users WHERE email = '${userEmail}';`;
-    const user = await db.query(findUser);
-
+    const user = await db.query(findUserQuery, values);
+    res.locals.verifiedUser = user.rows[0];
     bcrypt.compare(password, user.rows[0].password, (err, result) => {
       if (err) return next(err);
-      return result ? next() : next({ log: 'Incorrect password' });
+      return (result ? next() : next({ log: 'Incorrect password' }))
     });
   } catch (e) {
     return next({ log: 'Error returned, invalid username' });
