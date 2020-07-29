@@ -37,15 +37,12 @@ class App extends Component {
       // userZip: '',
       msgRooms: ['Bridget', 'Scott'],
       /* State for a single item */
-      itemTitle: '',
-      itemDescription: '',
-      itemCategory: '',
-      itemImage: '',
-      claimed: false,
+      newItem: { itemTitle: '', itemDescription: '', itemCategory: '', itemImage: '', claimed: false },
       user_id: '2',
       redirect: null,
     };
-    this.handleChange = this.handleChange.bind(this);
+    this.handleUserChange = this.handleUserChange.bind(this);
+    this.handleItemChange = this.handleItemChange.bind(this);
     this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
     this.handleSignUpSubmit = this.handleSignUpSubmit.bind(this);
     this.getAllItems = this.getAllItems.bind(this);
@@ -65,9 +62,13 @@ class App extends Component {
     }
   }
   // }
-  handleChange(e) {
-    this.setState({ ...this.state, user: { ...this.state.user, [e.target.name]: e.target.value } });
+  handleUserChange(e) {
+    this.setState({ user: { ...this.state.user, [e.target.name]: e.target.value } });
     // console.log(this.state);
+  }
+
+  handleItemChange(e) {
+    this.setState({ newItem: { ...this.state.newItem, [e.target.name]: e.target.value } });
   }
   /*--------- Send a message to another user from ItemCard button ------*/
   // somewhere (maybe here) we need a POST request to update both users' 'msgRooms' array in DB
@@ -83,9 +84,8 @@ class App extends Component {
   handleFileChange(e) {
     // console.log('input Image:', e.target.value);
     this.setState({
-      itemImage:
-        e.target
-          .value /**URL.createObjectURL(e.target.files[0]) to display image before submit (for file uploads, not URLs) */,
+      newItem: { ...this.state.newItem, itemImage: e.target.value },
+      /**URL.createObjectURL(e.target.files[0]) to display image before submit (for file uploads, not URLs) */
     });
   }
 
@@ -115,7 +115,8 @@ class App extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const { itemTitle, itemDescription, itemCategory, itemImage, claimed, user_id } = this.state;
+    const { itemTitle, itemDescription, itemCategory, itemImage, claimed } = this.state.newItem;
+    const user_id = this.state.user_id;
     const body = {
       title: itemTitle,
       description: itemDescription,
@@ -162,9 +163,7 @@ class App extends Component {
       .then((res) => res.json())
       .then((user) => {
         this.props.history.push('/');
-        this.setState({ isLoggedIn: true, user: user });
-        console.log('user from login fetch -> ', user);
-        console.log('state after login -> ', this.state);
+        this.setState({ isLoggedIn: true, user: user, user_id: user.id });
       })
       .catch((err) => {
         console.log('/LOG-IN Post error: ', err);
@@ -205,7 +204,7 @@ class App extends Component {
       .then((user) => {
         // console.log('res', res);
         this.props.history.push('/');
-        this.setState({ isLoggedIn: true, user: user });
+        this.setState({ isLoggedIn: true, user: user, user_id: user.id });
       })
       .catch((err) => {
         console.log('AddItem Post error: ', err);
@@ -271,7 +270,7 @@ class App extends Component {
                   sendMessage={this.handleSendMessage}
                   handleSubmit={this.handleSubmit}
                   handleFileChange={this.handleFileChange}
-                  handleChange={this.handleChange}
+                  handleItemChange={this.handleItemChange}
                   handleFilterChange={this.handleFilterChange}
                   getAllItems={this.getAllItems}
                 />
@@ -310,7 +309,7 @@ class App extends Component {
               <Login
                 {...props} // add props here
                 handleLoginSubmit={this.handleLoginSubmit}
-                handleChange={this.handleChange}
+                handleUserChange={this.handleUserChange}
               />
             </div>
           )}
@@ -322,7 +321,7 @@ class App extends Component {
             <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
               <Nav from="signup" displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
               <SignUp
-                handleChange={this.handleChange}
+                handleUserChange={this.handleUserChange}
                 handleSignUpSubmit={this.handleSignUpSubmit}
                 {...props} // add props here
               />

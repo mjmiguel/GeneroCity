@@ -23,7 +23,7 @@ class Login extends Component {
                 aria-describedby="emailHelp"
                 placeholder="hi@theneighborhood.com"
                 name="userEmail"
-                onChange={(e) => this.props.handleChange(e)}
+                onChange={(e) => this.props.handleUserChange(e)}
               ></input>
               <small id="emailHelp" className="form-text text-muted">
                 We'll never share your email with anyone else.
@@ -37,7 +37,7 @@ class Login extends Component {
                 id="exampleInputPassword1"
                 placeholder="Password"
                 name="password"
-                onChange={(e) => this.props.handleChange(e)}
+                onChange={(e) => this.props.handleUserChange(e)}
               ></input>
             </div>
             <button
