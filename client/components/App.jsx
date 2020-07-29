@@ -264,8 +264,8 @@ class App extends Component {
                   {...props}
                   displayedItems={this.state.displayedItems}
                   userItems={this.state.userItems}
-                  userEmail={this.state.userEmail}
-                  userAddress={this.state.userAddress}
+                  userEmail={this.state.user.email}
+                  userAddress={this.state.user.firstName}
                   userId={this.state.user_id}
                   sendMessage={this.handleSendMessage}
                   handleSubmit={this.handleSubmit}
@@ -339,14 +339,7 @@ class App extends Component {
                 handleFilterChange={this.handleFilterChange}
                 handleLogout={this.handleLogout}
               />
-              <Profile
-                {...props}
-                allItems={this.state.allItems}
-                userId={this.state.user_id}
-                userEmail={this.state.userEmail}
-                userFirstName={this.state.userFirstName}
-                userLastName={this.state.userLastName}
-              />
+              <Profile {...props} allItems={this.state.allItems} userId={this.state.user_id} user={this.state.user} />
             </div>
           )}
         />
