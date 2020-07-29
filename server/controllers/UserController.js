@@ -32,9 +32,10 @@ UserController.createUser = async (req, res, next) => {
   const { userEmail, password, firstName, lastName, zipCode, street, city, state } = req.body;
   try {
     // if user is in database, send res of user exists
-    const findUser = `SELECT email, password FROM users WHERE (email = '${email}');`;
+    const findUser = `SELECT email, password FROM users WHERE (email = '${userEmail}');`;
     const user = await db.query(findUser);
-    if (user.rows[0]) return res.status(200).send(`${email} already exists`);
+    console.log('found user ', user.rows[0])
+    if (user.rows[0]) return res.status(200).send(`${userEmail} already exists`);
 
     // create address in db
     const createAddressQuery = {
@@ -42,27 +43,29 @@ UserController.createUser = async (req, res, next) => {
         'INSERT INTO public.address(zipcode, street, city, state) VALUES($1, $2, $3, $4) RETURNING *',
       values: [zipCode, street, city, state],
     };
+
     const address = await db.query(createAddressQuery);
 
     // hash the provided password with brcrypt before insertion into db
     bcrypt.hash(password, SALT_WORK_FACTOR, async (err, hash) => {
-      if (err) return next(err);
-      let hashedPassword = hash;
-
-      // create user, use incoming address_id
-      const createUserQuery = {
-        text:
-          'INSERT INTO public.users("email", "firstName", "lastName", "password", "address_id") VALUES($1, $2, $3, $4, $5) RETURNING *',
-        values: [userEmail, firstName, lastName, hashedPassword, address.rows[0]._id],
-      };
+      try {
+        if (err) return next(err);
+        let hashedPassword = hash;
   
-      let newUser = await db.query(createUserQuery, (err, res) => {
-        if (err) return next(err)
-        console.log('user created', res.rows[0])
-      });
-      // console.log('successfully create email', email);
-      // send data back to client
-      return next();
+        // create user, use incoming address_id
+        const createUserQuery = {
+          text:
+            'INSERT INTO public.users("email", "firstName", "lastName", "password", "address_id") VALUES($1, $2, $3, $4, $5) RETURNING *',
+          values: [userEmail, firstName, lastName, hashedPassword, address.rows[0]._id],
+        };
+    
+        let newUser = await db.query(createUserQuery);
+
+        res.locals.newUser = newUser.rows[0];
+        return next();
+      } catch(e) {
+        return next(e);
+      }
     });
 
     // res.status(200).json({ user: newUser.rows[0], adress: address.rows[0] });
