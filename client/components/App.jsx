@@ -207,7 +207,7 @@ class App extends Component {
       .then((user) => {
         // console.log('res', res);
         this.props.history.push('/');
-        this.setState({ isLoggedIn: true, user: user, [user.password]: '' });
+        this.setState({ isLoggedIn: true, user: user });
         console.log('state after signup -> ', this.state);
       })
       .catch((err) => {
