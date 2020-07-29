@@ -8,7 +8,7 @@ UserController.getUserItems = (req, res, next) => {
   // console.log(`req.params.id`, req.params.user);
   const { user_id } = req.params;
   // console.log('user', user_id);
-
+  console.log('req params in get user items ', user_id )
   const query = `SELECT u._id, u.email, i.*
   FROM public.users u
   RIGHT OUTER JOIN public.items i ON u._id=i.user_id
