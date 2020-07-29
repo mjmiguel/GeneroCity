@@ -234,7 +234,7 @@ class App extends Component {
   render() {
     return (
       <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
-        <nav class="navbar navbar-expand-md navbar-light" style={{ backgroundColor: '#e4f3fe' }}>
+        <nav className="navbar navbar-expand-md navbar-light" style={{ backgroundColor: '#e4f3fe' }}>
           <NavLink to="/" className="nav-brand">
             <a className="navbar-brand" href="#" style={{ letterSpacing: '2px' }}>
               genero<span style={{ color: 'gray', letterSpacing: '3px' }}>city</span>
