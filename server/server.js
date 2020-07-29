@@ -74,7 +74,7 @@ app.get('/item/category/Appliances', (req, res) => res.sendFile(path.resolve(__d
 app.get('/item/category/Kitchen', (req, res) => res.sendFile(path.resolve(__dirname, '../index.html')));
 app.get('/item/category/Sports', (req, res) => res.sendFile(path.resolve(__dirname, '../index.html')));
 app.get('/item/category/Clothing', (req, res) => res.sendFile(path.resolve(__dirname, '../index.html')));
-app.get('/logIn', (req, res) => res.sendFile(path.resolve(__dirname, '../index.html')));
+// app.get('/logIn', (req, res) => res.sendFile(path.resolve(__dirname, '../index.html')));
 app.get('/landing', (req, res) => res.sendFile(path.resolve(__dirname, '../index.html')));
 
 // Catch-All to handle unknown routes

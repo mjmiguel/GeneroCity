@@ -83,6 +83,18 @@ const Nav = (props) => {
     );
   }
 
+  if (props.from === 'profile' || props.from === 'messages' || props.from === 'chat') {
+    return (
+      <nav className="navbar navbar-expand-md navbar-light" style={{ backgroundColor: '#e4f3fe' }}>
+        {logoBtn}
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          {mainNavOptions}
+          {userOptions}
+        </div>
+      </nav>
+    );
+  }
+
   return (
     <nav className="navbar navbar-expand-md navbar-light" style={{ backgroundColor: '#e4f3fe' }}>
       {logoBtn}
