@@ -19,12 +19,25 @@ h6 {
 .itemsContainer {
   padding: 3rem;
   display: grid;
+  justify-self: center;
   grid-template-columns: 20fr 20fr 20fr 20fr 20fr; /*can add a media query for smaller screens/responsivity*/
-  /* min-width: 950px; */
+  max-width: 1200px;
 }
 /* card container: which includes everything within a card */
 .card {
   margin: 10px;
+  width: 250px;
+}
+
+.imagePreviewContainer {
+  display: flex;
+  flex-direction: row;
+  grid-template-columns: 30fr 30fr 30fr;
+  max-width: 150px;
+}
+
+.imagePreview {
+  flex-basis: 30%;
 }
 
 /* invidivual section within a card */
@@ -74,7 +87,7 @@ h6 {
 }
 
 #filterBox select {
-  font-size: $bodytext
+  font-size: $bodytext;
 }
 
 .navbar-light {
@@ -104,7 +117,8 @@ h6 {
   border: none;
   color: gray;
 }
-.loginAndSignUp input, select {
+.loginAndSignUp input,
+select {
   border: 1px solid lightgray;
   box-shadow: 1px 2px 2px rgba(11, 11, 22, 0.171);
   border: none;
@@ -120,7 +134,6 @@ h6 {
   border: 1px solid lightgray;
   border-radius: 15px;
   box-shadow: 1px 1px 5px rgba(22, 22, 22, 0.171);
-
 }
 
 .loginAndSignUpBtn:hover {
@@ -136,10 +149,7 @@ h6 {
 
 .msgContainer {
   box-shadow: 1px 1px 25px rgba(22, 22, 22, 0.171);
-     
 }
-
-
 
 /* ----------------Media Queries------------------ */
 /* TODO: */
@@ -150,8 +160,9 @@ h6 {
     grid-template-columns: 25fr 25fr 25fr 25fr; /*can add a media query for smaller screens/responsivity*/
   }
 }
-@media (max-width: 1150px) {
+@media (max-width: 950px) {
   .itemsContainer {
     grid-template-columns: 33fr 33fr 33fr; /*can add a media query for smaller screens/responsivity*/
+    justify-content: space-around;
   }
 }

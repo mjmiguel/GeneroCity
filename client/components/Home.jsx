@@ -14,12 +14,17 @@ class Home extends Component {
 
   render() {
     const { displayedItems } = this.props; // provides this.state.allItems as an array
-
+    console.log('displayedItems is here:   ', this.props);
     // use map method to transform allItems into cards
     const cards = displayedItems.map((item, index) => {
       return (
         <div className="card">
-          <ItemCard key={index} item={item} sendMessageButton={this.props.sendMessage} inProfile={false} />
+          <ItemCard
+            key={index}
+            item={item}
+            sendMessageButton={this.props.sendMessage}
+            inProfile={false}
+          />
         </div>
       );
     });
@@ -30,7 +35,12 @@ class Home extends Component {
           <section className="leftNav"></section>
           <section className="rightNav">
             {/* <!-- Button trigger modal --> */}
-            <button type="button" class="btn btn-dark addItemBtn" data-toggle="modal" data-target="#addItemModal">
+            <button
+              type="button"
+              class="btn btn-dark addItemBtn"
+              data-toggle="modal"
+              data-target="#addItemModal"
+            >
               Add Item
             </button>
           </section>
@@ -44,13 +54,21 @@ class Home extends Component {
           aria-labelledby="exampleModalScrollableTitle"
           aria-hidden="true"
         >
-          <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div
+            class="modal-dialog modal-dialog-centered modal-lg"
+            role="document"
+          >
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalScrollableTitle">
                   Add an Item
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -62,7 +80,11 @@ class Home extends Component {
                 />
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
                   Close
                 </button>
                 <button
