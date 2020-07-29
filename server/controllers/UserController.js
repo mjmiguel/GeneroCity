@@ -56,7 +56,7 @@ UserController.createUser = async (req, res, next) => {
             'INSERT INTO public.users("email", "firstName", "lastName", "password", "address_id") VALUES($1, $2, $3, $4, $5) RETURNING *',
           values: [userEmail, firstName, lastName, hashedPassword, address.rows[0]._id],
         };
-    
+        
         let newUser = await db.query(createUserQuery);
 
         res.locals.newUser = newUser.rows[0];
@@ -78,17 +78,15 @@ UserController.createUser = async (req, res, next) => {
 
 UserController.verifyUser = async (req, res, next) => {
   const { userEmail, password } = req.body;
-  const findUserQuery = {
-    text: `
-    SELECT u._id, u.email, u.password, a.street, a.city, a.state, a.zipcode
-    FROM users u
-    INNER JOIN address a ON u.address_id=a._id WHERE email = VALUES($1);`,
-    values: [userEmail, password]
-  };
+  
+  const findUserQuery = `
+  SELECT u._id, u.email, u.password, a.street, a.city, a.state, a.zipcode 
+  FROM users u 
+  INNER JOIN address a ON u.address_id=a._id WHERE email = $1;`
+  const values = [userEmail];
   try {
-    const user = await db.query(findUserQuery);
+    const user = await db.query(findUserQuery, values);
     res.locals.verifiedUser = user.rows[0];
-    
     bcrypt.compare(password, user.rows[0].password, (err, result) => {
       if (err) return next(err);
       return (result ? next() : next({ log: 'Incorrect password' }))

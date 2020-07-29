@@ -32,7 +32,8 @@ router.post(
   CookieController.setSSIDCookie,
   SessionController.startSession,
   (req, res, next) => {
-    return res.status(200).json({ isLoggedIn: true });
+    console.log('user logged in ', res.locals.verifiedUser);
+    return res.status(200).json({ ...res.locals.verifiedUser, isLoggedIn: true });
   }
 );
 
