@@ -58,7 +58,7 @@ UserController.createUser = async (req, res, next) => {
   
       let newUser = await db.query(createUserQuery, (err, res) => {
         if (err) return next(err)
-        console.log('users query ', res)
+        console.log('error in createUsers', res)
       });
       // console.log('successfully create email', email);
       // send data back to client
