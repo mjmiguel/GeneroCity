@@ -17,13 +17,17 @@ class ItemCard extends Component {
     if (this.props.inProfile) {
       messageButton = null;
     } else {
-      messageButton = <button type="button"
-        class="btn btn-primary appButton"
-        style={{ width: '100%' }}
-        value={title}
-        onClick={(e) => sendMessageButton(e)}
-      >Message Lister</button>
-
+      messageButton = (
+        <button
+          type="button"
+          className="btn btn-primary appButton"
+          style={{ width: '100%' }}
+          value={title}
+          onClick={(e) => sendMessageButton(e)}
+        >
+          Message Lister
+        </button>
+      );
     }
     /* TO DO: 
       backend: add location
@@ -32,10 +36,10 @@ class ItemCard extends Component {
     */
     return (
       <div>
-        <img class="card-img-top" src={image} />
-        <div class="card-body">
-          <h5 class="card-title">{title}</h5>
-          <p class="card-text">
+        <img className="card-img-top" src={image} />
+        <div className="card-body">
+          <h5 className="card-title">{title}</h5>
+          <p className="card-text">
             {/* Location: Enter Location Here <br /> */}
             <br />
             {description} <br />

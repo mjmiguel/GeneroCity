@@ -3,7 +3,7 @@ const db = require('../models/Models');
 const ItemsController = {};
 
 ItemsController.getAllItems = (req, res, next) => {
-  const query = ' SELECT * FROM public.items'
+  const query = ' SELECT * FROM public.items';
 
   db.query(query, (err, data) => {
     if (err) {
@@ -22,7 +22,8 @@ ItemsController.postItem = (req, res, next) => {
   const { title, description, image, category, status, user_id } = req.body;
 
   const query = {
-    text: 'INSERT INTO public.items(title, description, image, category, status, user_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
+    text:
+      'INSERT INTO public.items(title, description, image, category, status, user_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
     values: [title, description, image, category, status, user_id],
   };
 
@@ -49,7 +50,7 @@ ItemsController.editUserItem = (req, res, next) => {
   image='${image}',
   category='${category}',
   status='${status}'
-  WHERE _id=${item_id}`
+  WHERE _id=${item_id}`;
 
   db.query(query, (err, data) => {
     if (err) {
@@ -58,8 +59,8 @@ ItemsController.editUserItem = (req, res, next) => {
     // if successful, query will edit single item in database
     console.log(`Item Number ${item_id} successfully edited in database.`);
     return next();
-  })
-}
+  });
+};
 
 ItemsController.deleteItem = (req, res, next) => {
   const { item_id } = req.params;
@@ -67,7 +68,7 @@ ItemsController.deleteItem = (req, res, next) => {
   const query = `
   DELETE FROM public.items
   WHERE _id=${item_id};
-  `
+  `;
 
   db.query(query, (err, data) => {
     if (err) {
@@ -76,10 +77,7 @@ ItemsController.deleteItem = (req, res, next) => {
     // if successful, query will delete single item in database
     console.log(`Item Number ${item_id} successfully deleted in database`);
     return next();
-  })
-}
+  });
+};
 
 module.exports = ItemsController;
-
-
-

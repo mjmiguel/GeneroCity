@@ -48,10 +48,7 @@ class AddItem extends Component {
           {/** ------- Category -------- */}
 
           <div className="form-group row">
-            <label
-              htmlFor="exampleFormControlSelect1"
-              className="col-sm-2 col-form-label col-form-label-md"
-            >
+            <label htmlFor="exampleFormControlSelect1" className="col-sm-2 col-form-label col-form-label-md">
               Category
             </label>
             <div className="col-sm-10">
@@ -122,6 +119,14 @@ class AddItem extends Component {
           </div>
         </form>
         {/*end component div*/}
+        <div className="modal-footer">
+          <button type="button" className="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+          <button type="submit" className="btn btn-primary" data-dismiss="modal" onClick={(e) => this.props.handleSubmit(e)}>
+            Add Item
+          </button>
+        </div>
       </div>
     );
   }
