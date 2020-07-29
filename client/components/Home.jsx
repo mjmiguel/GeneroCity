@@ -12,13 +12,17 @@ class Home extends Component {
     // tracks AddItem values
   }
 
+  componentDidMount() {
+    this.props.getAllItems();
+  }
+
   render() {
     const { displayedItems } = this.props; // provides this.state.allItems as an array
     console.log('displayedItems is here:   ', this.props);
     // use map method to transform allItems into cards
     const cards = displayedItems.map((item, index) => {
       return (
-        <div className="card">
+        <div key={index} className="card">
           <ItemCard
             key={index}
             item={item}
@@ -37,7 +41,7 @@ class Home extends Component {
             {/* <!-- Button trigger modal --> */}
             <button
               type="button"
-              class="btn btn-dark addItemBtn"
+              className="btn btn-dark addItemBtn"
               data-toggle="modal"
               data-target="#addItemModal"
             >
@@ -47,7 +51,7 @@ class Home extends Component {
         </section>
         {/* <!!-- Modal Button - Display Content is in AddItem.jsx --!!> */}
         <div
-          class="modal fade"
+          className="modal fade"
           id="addItemModal"
           tabIndex="-1"
           role="dialog"
@@ -55,46 +59,29 @@ class Home extends Component {
           aria-hidden="true"
         >
           <div
-            class="modal-dialog modal-dialog-centered modal-lg"
+            className="modal-dialog modal-dialog-centered modal-lg"
             role="document"
           >
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalScrollableTitle">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalScrollableTitle">
                   Add an Item
                 </h5>
                 <button
                   type="button"
-                  class="close"
+                  className="close"
                   data-dismiss="modal"
                   aria-label="Close"
                 >
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
+              <div className="modal-body">
                 <AddItem
                   handleChange={this.props.handleChange}
                   handleSubmit={this.props.handleSubmit}
                   handleFileChange={this.props.handleFileChange}
                 />
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button
-                  type="submit"
-                  class="btn btn-primary"
-                  data-dismiss="modal"
-                  onClick={(e) => this.props.handleSubmit(e)}
-                >
-                  Add Item
-                </button>
               </div>
             </div>
           </div>

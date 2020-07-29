@@ -30,11 +30,10 @@ class ItemCard extends Component {
       messageButton = (
         <button
           type="button"
-          class="btn btn-primary appButton"
+          className="btn btn-primary appButton"
           style={{ width: '100%' }}
           value={title}
           onClick={(e) => sendMessageButton(e)}
-          position="bottom"
         >
           Message Lister
         </button>
