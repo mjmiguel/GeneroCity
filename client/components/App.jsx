@@ -9,6 +9,8 @@ import Profile from './Profile.jsx';
 import AddItem from './AddItem.jsx';
 import Chat from './chat/Chat.jsx';
 import Messages from './chat/Messages.jsx';
+import Landing from './Landing.jsx';
+import Nav from './Nav.jsx';
 import { Route, Switch, NavLink } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
@@ -234,72 +236,7 @@ class App extends Component {
   render() {
     return (
       <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
-        <nav className="navbar navbar-expand-md navbar-light" style={{ backgroundColor: '#e4f3fe' }}>
-          <NavLink to="/" className="nav-brand">
-            <a className="navbar-brand" href="#" style={{ letterSpacing: '2px' }}>
-              genero<span style={{ color: 'gray', letterSpacing: '3px' }}>city</span>
-            </a>
-          </NavLink>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav mr-auto">
-              <li className="nav-item active">
-                <NavLink to="/profile" className="nav-link">
-                  Profile
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink to="/messages" className="nav-link">
-                  Messages
-                </NavLink>
-              </li>
-
-              <div id="filterBox">
-                <select
-                  className="form-control"
-                  id="exampleFormControlSelect1"
-                  name="itemCategory"
-                  value={this.state.displayCat}
-                  onChange={(e) => {
-                    this.handleFilterChange(e);
-                  }}
-                >
-                  <option value="All">All Categories</option>
-                  <option value="Appliances">Appliances</option>
-                  <option value="Plants">Plants</option>
-                  <option value="Sports">Sports</option>
-                  <option value="Clothing">Clothing</option>
-                  <option value="Books">Books</option>
-                  <option value="Miscellaneous">Miscellaneous</option>
-                </select>
-              </div>
-            </ul>
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <NavLink to="/login" className="nav-link" style={{ marginRight: '10px' }}>
-                  Login
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink to="/signup" className="nav-link">
-                  Sign Up
-                </NavLink>
-              </li>
-            </ul>
-          </div>
-        </nav>
-
+        <Nav displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
         <Switch>
           <Route
             exact
@@ -383,6 +320,8 @@ class App extends Component {
             path="/messages"
             render={(props) => <Messages {...props} msgRooms={this.state.msgRooms} userEmail={this.state.userEmail} />}
           />
+
+          <Route exact path="/landing" render={(props) => <Landing />} />
         </Switch>
       </div>
     );
