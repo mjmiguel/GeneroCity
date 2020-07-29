@@ -29,7 +29,7 @@ UserController.getUserItems = (req, res, next) => {
 
 UserController.createUser = async (req, res, next) => {
   console.log('req body in create ', req.body)
-  const { email, password, firstName, lastName, zipCode, street, city, state } = req.body;
+  const { userEmail, password, firstName, lastName, zipCode, street, city, state } = req.body;
   try {
     // if user is in database, send res of user exists
     const findUser = `SELECT email, password FROM users WHERE (email = '${email}');`;
@@ -53,7 +53,7 @@ UserController.createUser = async (req, res, next) => {
       const createUserQuery = {
         text:
           'INSERT INTO public.users("email", "firstName", "lastName", "password", "address_id") VALUES($1, $2, $3, $4, $5) RETURNING *',
-        values: [email, firstName, lastName, hashedPassword, address.rows[0]._id],
+        values: [userEmail, firstName, lastName, hashedPassword, address.rows[0]._id],
       };
   
       let newUser = await db.query(createUserQuery, (err, res) => {
