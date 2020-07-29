@@ -24,16 +24,17 @@ class App extends Component {
       allItems: [], // (each item is an object)
       displayedItems: [],
       displayCat: 'All',
-      userEmail: 'Dave',
-      userPoints: '',
-      userFirstName: 'Dave',
-      userLastName: "O'Sullivan",
-      password: '',
-      userStreet: '',
-      userStreet2: '',
-      userCity: '',
-      userState: '',
-      userZip: '',
+      user: {},
+      // userEmail: 'Dave',
+      // userPoints: '',
+      // userFirstName: 'Dave',
+      // userLastName: "O'Sullivan",
+      // password: '',
+      // userStreet: '',
+      // userStreet2: '',
+      // userCity: '',
+      // userState: '',
+      // userZip: '',
       msgRooms: ['Bridget', 'Scott'],
       /* State for a single item */
       itemTitle: '',
@@ -63,7 +64,8 @@ class App extends Component {
   //   // this.checkSession(); ---- session auth incomplete
   // }
   handleChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({ ...this.state, user: { ...this.state.user, [e.target.name]: e.target.value } });
+    // console.log(this.state);
   }
   /*--------- Send a message to another user from ItemCard button ------*/
   // somewhere (maybe here) we need a POST request to update both users' 'msgRooms' array in DB
@@ -77,7 +79,7 @@ class App extends Component {
   /*----------- handle file change (image input) (AddItem)-----------------*/
 
   handleFileChange(e) {
-    console.log('input Image:', e.target.value);
+    // console.log('input Image:', e.target.value);
     this.setState({
       itemImage:
         e.target
@@ -143,8 +145,10 @@ class App extends Component {
   handleLoginSubmit(e) {
     e.preventDefault();
 
-    const { userEmail, password } = this.state;
+    const { userEmail, password } = this.state.user;
     const body = { userEmail, password };
+
+    console.log(body);
 
     fetch('/user/login', {
       method: 'POST',
@@ -156,8 +160,11 @@ class App extends Component {
       .then((res) => {
         console.log('res in /log-in', res);
         res.json();
+      })
+      .then((user) => {
         this.props.history.push('/');
-        this.setState({ isLoggedIn: true, password: '' });
+        this.setState({ isLoggedIn: true, user: user });
+        console.log('state after login -> ', this.state);
       })
       .catch((err) => {
         console.log('/LOG-IN Post error: ', err);
@@ -166,16 +173,16 @@ class App extends Component {
   }
 
   handleLogout() {
-    this.setState({ isLoggedIn: false });
+    this.setState({ isLoggedIn: false, user: {} });
   }
 
   /*----------------POST request To SIGNUP-------------------*/
   handleSignUpSubmit(e) {
     e.preventDefault();
 
-    const { userFirstName, userLastName, password, userEmail, userStreet, userState, userCity, userZip } = this.state;
+    const { userFirstName, userLastName, password, userEmail, userStreet, userState, userCity, userZip } = this.state.user;
     const body = {
-      email: userEmail,
+      userEmail,
       password,
       firstName: userFirstName,
       lastName: userLastName,
@@ -197,10 +204,11 @@ class App extends Component {
       .then((res) => res.json())
       // TODO: setState with isLoggedIn, clear pw
       // return to home page
-      .then((res) => {
+      .then((user) => {
         // console.log('res', res);
         this.props.history.push('/');
-        // this.setState({})
+        this.setState({ isLoggedIn: true, user: user, [user.password]: '' });
+        console.log('state after signup -> ', this.state);
       })
       .catch((err) => {
         console.log('AddItem Post error: ', err);
