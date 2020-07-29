@@ -65,6 +65,7 @@ class App extends Component {
   // }
   handleChange(e) {
     this.setState({ ...this.state, user: { ...this.state.user, [e.target.name]: e.target.value } });
+    // console.log(this.state);
   }
   /*--------- Send a message to another user from ItemCard button ------*/
   // somewhere (maybe here) we need a POST request to update both users' 'msgRooms' array in DB
@@ -78,7 +79,7 @@ class App extends Component {
   /*----------- handle file change (image input) (AddItem)-----------------*/
 
   handleFileChange(e) {
-    console.log('input Image:', e.target.value);
+    // console.log('input Image:', e.target.value);
     this.setState({
       itemImage:
         e.target
@@ -147,6 +148,8 @@ class App extends Component {
     const { userEmail, password } = this.state.user;
     const body = { userEmail, password };
 
+    console.log(body);
+
     fetch('/user/login', {
       method: 'POST',
       headers: {
@@ -160,7 +163,7 @@ class App extends Component {
       })
       .then((user) => {
         this.props.history.push('/');
-        this.setState({ isLoggedIn: true, user: user, [user.password]: '' });
+        this.setState({ isLoggedIn: true, user: user });
         console.log('state after login -> ', this.state);
       })
       .catch((err) => {
