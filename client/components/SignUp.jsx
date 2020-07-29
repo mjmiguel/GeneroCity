@@ -21,7 +21,7 @@ class SignUp extends Component {
                   id="firstName"
                   placeholder="First Name"
                   name="userFirstName"
-                  onChange={(e) => this.props.handleChange(e)}
+                  onChange={(e) => this.props.handleUserChange(e)}
                 ></input>
               </div>
               <div className="form-group col-md-6">
@@ -32,7 +32,7 @@ class SignUp extends Component {
                   id="lastName"
                   placeholder="Last Name"
                   name="userLastName"
-                  onChange={(e) => this.props.handleChange(e)}
+                  onChange={(e) => this.props.handleUserChange(e)}
                 ></input>
               </div>
               <div className="form-group col-md-6">
@@ -43,7 +43,7 @@ class SignUp extends Component {
                   id="inputEmail4"
                   placeholder="Email"
                   name="userEmail"
-                  onChange={(e) => this.props.handleChange(e)}
+                  onChange={(e) => this.props.handleUserChange(e)}
                 ></input>
               </div>
               <div className="form-group col-md-6">
@@ -54,7 +54,7 @@ class SignUp extends Component {
                   id="inputPassword4"
                   placeholder="Password"
                   name="password"
-                  onChange={(e) => this.props.handleChange(e)}
+                  onChange={(e) => this.props.handleUserChange(e)}
                 ></input>
               </div>
             </div>
@@ -66,7 +66,7 @@ class SignUp extends Component {
                 id="inputAddress"
                 placeholder="1234 Main St"
                 name="userStreet"
-                onChange={(e) => this.props.handleChange(e)}
+                onChange={(e) => this.props.handleUserChange(e)}
               ></input>
             </div>
             <div className="form-group">
@@ -77,7 +77,7 @@ class SignUp extends Component {
                 id="inputAddress2"
                 placeholder="Apartment, studio, or floor"
                 name="userStreet2"
-                onChange={(e) => this.props.handleChange(e)}
+                onChange={(e) => this.props.handleUserChange(e)}
               ></input>
             </div>
             <div className="form-row">
@@ -88,7 +88,7 @@ class SignUp extends Component {
                   className="form-control"
                   id="inputCity"
                   name="userCity"
-                  onChange={(e) => this.props.handleChange(e)}
+                  onChange={(e) => this.props.handleUserChange(e)}
                 ></input>
               </div>
               <div className="form-group col-md-4">
@@ -97,7 +97,7 @@ class SignUp extends Component {
                   id="inputState"
                   name="userState"
                   className="form-control"
-                  onChange={(e) => this.props.handleChange(e)}
+                  onChange={(e) => this.props.handleUserChange(e)}
                 >
                   <option defaultValue="">Choose...</option>
                   <option value="CA">CA</option>
@@ -110,7 +110,7 @@ class SignUp extends Component {
                   className="form-control"
                   id="inputZip"
                   name="userZip"
-                  onChange={(e) => this.props.handleChange(e)}
+                  onChange={(e) => this.props.handleUserChange(e)}
                 ></input>
               </div>
             </div>

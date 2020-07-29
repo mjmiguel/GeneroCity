@@ -24,7 +24,7 @@ class AddItem extends Component {
                 id="colFormLabelLg"
                 placeholder="Enter Item Name"
                 name="itemTitle"
-                onChange={(e) => this.props.handleChange(e)}
+                onChange={(e) => this.props.handleItemChange(e)}
               ></input>
             </div>
           </div>
@@ -41,7 +41,7 @@ class AddItem extends Component {
                 placeholder="Enter Item Description"
                 name="itemDescription"
                 x
-                onChange={(e) => this.props.handleChange(e)}
+                onChange={(e) => this.props.handleItemChange(e)}
               ></input>
             </div>
           </div>
@@ -56,7 +56,7 @@ class AddItem extends Component {
                 className="form-control"
                 id="exampleFormControlSelect1"
                 name="itemCategory"
-                onChange={(e) => this.props.handleChange(e)}
+                onChange={(e) => this.props.handleItemChange(e)}
               >
                 <option>Select a Category</option>
                 <option>Appliances</option>
