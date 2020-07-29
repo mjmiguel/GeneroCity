@@ -60,7 +60,7 @@ class Home extends Component {
               </div>
               <div className="modal-body">
                 <AddItem
-                  handleChange={this.props.handleChange}
+                  handleItemChange={this.props.handleItemChange}
                   handleSubmit={this.props.handleSubmit}
                   handleFileChange={this.props.handleFileChange}
                 />

@@ -35,7 +35,8 @@ ItemsController.postItem = (req, res, next) => {
     // const { rows } = data;
     // console.log('rows', rows);
     // res.locals.items = rows;
-    console.log(`${title} successfully posted to database.`);
+
+    console.log(`${data} successfully posted to database.`);
     return next();
   });
 };

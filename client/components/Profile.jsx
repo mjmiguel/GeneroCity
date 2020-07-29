@@ -41,7 +41,7 @@ class Profile extends Component {
 
   getUserItems() {
     const url = '/user/';
-    const id = this.props.userId;
+    const id = this.props.userId.toString();
     fetch(path.resolve(url, id))
       .then((res) => res.json())
       .then((res) => {
