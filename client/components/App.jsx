@@ -157,13 +157,11 @@ class App extends Component {
       },
       body: JSON.stringify(body),
     })
-      .then((res) => {
-        console.log('res in /log-in', res);
-        res.json();
-      })
+      .then((res) => res.json())
       .then((user) => {
         this.props.history.push('/');
         this.setState({ isLoggedIn: true, user: user });
+        console.log('user from login fetch -> ', user);
         console.log('state after login -> ', this.state);
       })
       .catch((err) => {
@@ -192,8 +190,6 @@ class App extends Component {
       state: userState,
     };
 
-    console.log('submit signUp req body:', body);
-
     fetch('/user/signup', {
       method: 'POST',
       headers: {
@@ -208,7 +204,6 @@ class App extends Component {
         // console.log('res', res);
         this.props.history.push('/');
         this.setState({ isLoggedIn: true, user: user });
-        console.log('state after signup -> ', this.state);
       })
       .catch((err) => {
         console.log('AddItem Post error: ', err);

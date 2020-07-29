@@ -33,7 +33,7 @@ router.post(
   SessionController.startSession,
   (req, res, next) => {
     console.log('user logged in ', res.locals.verifiedUser);
-    return res.status(200).json({ ...res.locals.verifiedUser, isLoggedIn: true });
+    return res.status(200).json({ ...res.locals.verifiedUser, id: res.locals.ssid });
   }
 );
 
