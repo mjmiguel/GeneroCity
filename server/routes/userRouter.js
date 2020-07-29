@@ -20,6 +20,7 @@ router.post(
   CookieController.setSSIDCookie,
   SessionController.startSession,
   (req, res, next) => {
+    console.log('new user in express ', res.locals.newUser);
     return res.status(200).json({ id: res.locals.ssid });
   }
 );
