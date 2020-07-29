@@ -20,7 +20,8 @@ router.post(
   CookieController.setSSIDCookie,
   SessionController.startSession,
   (req, res, next) => {
-    return res.status(200).json({ id: res.locals.ssid });
+    console.log('new user in express ', res.locals.newUser);
+    return res.status(200).json({ ...res.locals.newUser, id: res.locals.ssid });
   }
 );
 
@@ -31,7 +32,8 @@ router.post(
   CookieController.setSSIDCookie,
   SessionController.startSession,
   (req, res, next) => {
-    return res.status(200).json({ isLoggedIn: true });
+    console.log('user logged in ', res.locals.verifiedUser);
+    return res.status(200).json({ ...res.locals.verifiedUser, id: res.locals.ssid });
   }
 );
 
