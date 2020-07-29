@@ -8,10 +8,10 @@ const Landing = (props) => {
       <div className="row" style={{ height: '15vh' }}></div>
       <div className="col" style={{ maxWidth: '90%' }}>
         <h3 style={{ textAlign: 'center', margin: '30px', color: '$warmGray' }}>feeling generous?</h3>
-        <NavLink to="/login" className="btn btn-primary loginAndSignUpBtn">
+        <NavLink to="/signup" className="btn btn-primary loginAndSignUpBtn">
           signup
         </NavLink>
-        <NavLink to="/signup" className="btn btn-primary loginAndSignUpBtn">
+        <NavLink to="/login" className="btn btn-primary loginAndSignUpBtn">
           login
         </NavLink>
       </div>

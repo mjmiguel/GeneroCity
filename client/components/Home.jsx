@@ -12,6 +12,10 @@ class Home extends Component {
     // tracks AddItem values
   }
 
+  componentDidMount() {
+    this.props.getAllItems();
+  }
+
   render() {
     const { displayedItems } = this.props; // provides this.state.allItems as an array
 

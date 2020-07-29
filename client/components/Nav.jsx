@@ -66,7 +66,7 @@ const Nav = (props) => {
   const userOptions = (
     <ul className="navbar-nav">
       <li className="nav-item">
-        <NavLink to="/landing" className="nav-link" style={{ marginRight: '10px' }}>
+        <NavLink to="/" onClick={props.handleLogout} className="nav-link" style={{ marginRight: '10px' }}>
           Log Out
         </NavLink>
       </li>

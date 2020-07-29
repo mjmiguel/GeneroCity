@@ -52,12 +52,16 @@ class App extends Component {
     this.handleSendMessage = this.handleSendMessage.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFileChange = this.handleFileChange.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
     // this.checkSession = this.checkSession.bind(this);
   }
-  componentDidMount() {
-    this.getAllItems();
-    // this.checkSession(); ---- session auth incomplete
-  }
+  // componentDidMount() {
+  //   if (this.state.isLoggedIn) {
+  //     this.getAllItems();
+  //   }
+
+  //   // this.checkSession(); ---- session auth incomplete
+  // }
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -142,24 +146,27 @@ class App extends Component {
     const { userEmail, password } = this.state;
     const body = { userEmail, password };
 
-    fetch('/log-in', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'Application/JSON',
-      },
-      body: JSON.stringify(body),
-    })
-      .then((res) => {
-        console.log('res in /log-in', res);
-        res.json();
+    // fetch('/log-in', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'Application/JSON',
+    //   },
+    //   body: JSON.stringify(body),
+    // })
+    //   .then((res) => {
+    //     console.log('res in /log-in', res);
+    //     res.json();
+    this.props.history.push('/');
+    this.setState({ isLoggedIn: true, password: '' });
+    // })
+    // .catch((err) => {
+    //   console.log('/LOG-IN Post error: ', err);
+    //   this.setState({ userEmail: '', password: '' });
+    // });
+  }
 
-        this.setState({ isLoggedIn: true, password: '' });
-        this.props.history.push('/');
-      })
-      .catch((err) => {
-        console.log('/LOG-IN Post error: ', err);
-        this.setState({ userEmail: '', password: '' });
-      });
+  handleLogout() {
+    this.setState({ isLoggedIn: false });
   }
 
   /*----------------POST request To SIGNUP-------------------*/
@@ -244,7 +251,12 @@ class App extends Component {
           render={(props) =>
             this.state.isLoggedIn ? (
               <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
-                <Nav from="main" displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
+                <Nav
+                  from="main"
+                  displayCat={this.state.displayCat}
+                  handleFilterChange={this.handleFilterChange}
+                  handleLogout={this.handleLogout}
+                />
                 <Home
                   {...props}
                   displayedItems={this.state.displayedItems}
@@ -257,6 +269,7 @@ class App extends Component {
                   handleFileChange={this.handleFileChange}
                   handleChange={this.handleChange}
                   handleFilterChange={this.handleFilterChange}
+                  getAllItems={this.getAllItems}
                 />
               </div>
             ) : (
@@ -272,7 +285,12 @@ class App extends Component {
           path="/additem"
           render={(props) => (
             <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
-              <Nav from="additem" displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
+              <Nav
+                from="additem"
+                displayCat={this.state.displayCat}
+                handleFilterChange={this.handleFilterChange}
+                handleLogout={this.handleLogout}
+              />
               <AddItem
                 {...props} // add props here
               />
@@ -312,7 +330,12 @@ class App extends Component {
           path="/profile"
           render={(props) => (
             <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
-              <Nav from="profile" displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
+              <Nav
+                from="profile"
+                displayCat={this.state.displayCat}
+                handleFilterChange={this.handleFilterChange}
+                handleLogout={this.handleLogout}
+              />
               <Profile
                 {...props}
                 allItems={this.state.allItems}
@@ -329,7 +352,12 @@ class App extends Component {
           path="/chat"
           render={(props) => (
             <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
-              <Nav from="chat" displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
+              <Nav
+                from="chat"
+                displayCat={this.state.displayCat}
+                handleFilterChange={this.handleFilterChange}
+                handleLogout={this.handleLogout}
+              />
               <Chat
                 {...props}
                 allItems={this.state.allItems}
@@ -345,12 +373,17 @@ class App extends Component {
           path="/messages"
           render={(props) => (
             <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
-              <Nav from="messages" displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
+              <Nav
+                from="messages"
+                displayCat={this.state.displayCat}
+                handleFilterChange={this.handleFilterChange}
+                handleLogout={this.handleLogout}
+              />
               <Messages {...props} msgRooms={this.state.msgRooms} userEmail={this.state.userEmail} />
             </div>
           )}
         />
-        {/* Temporary route to get to main landing page */}
+        {/* Temporary route to manually get to main landing page */}
         <Route
           exact
           path="/landing"
