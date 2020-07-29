@@ -9,15 +9,18 @@ import Profile from './Profile.jsx';
 import AddItem from './AddItem.jsx';
 import Chat from './chat/Chat.jsx';
 import Messages from './chat/Messages.jsx';
+import Landing from './Landing.jsx';
+import Nav from './Nav.jsx';
 import { Route, Switch, NavLink } from 'react-router-dom';
 import { withRouter } from 'react-router';
+// import { isLoggedIn } from '../../server/controllers/SessionController';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       // store most state in App component, make available to child components as props
-      isloggedIn: false,
+      isLoggedIn: false,
       allItems: [], // (each item is an object)
       displayedItems: [],
       displayCat: 'All',
@@ -49,12 +52,16 @@ class App extends Component {
     this.handleSendMessage = this.handleSendMessage.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFileChange = this.handleFileChange.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
     // this.checkSession = this.checkSession.bind(this);
   }
-  componentDidMount() {
-    this.getAllItems();
-    // this.checkSession(); ---- session auth incomplete
-  }
+  // componentDidMount() {
+  //   if (this.state.isLoggedIn) {
+  //     this.getAllItems();
+  //   }
+
+  //   // this.checkSession(); ---- session auth incomplete
+  // }
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -139,7 +146,7 @@ class App extends Component {
     const { userEmail, password } = this.state;
     const body = { userEmail, password };
 
-    fetch('/log-in', {
+    fetch('/user/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'Application/JSON',
@@ -149,14 +156,17 @@ class App extends Component {
       .then((res) => {
         console.log('res in /log-in', res);
         res.json();
-
-        this.setState({ isLoggedIn: true, password: '' });
         this.props.history.push('/');
+        this.setState({ isLoggedIn: true, password: '' });
       })
       .catch((err) => {
         console.log('/LOG-IN Post error: ', err);
         this.setState({ userEmail: '', password: '' });
       });
+  }
+
+  handleLogout() {
+    this.setState({ isLoggedIn: false });
   }
 
   /*----------------POST request To SIGNUP-------------------*/
@@ -232,129 +242,100 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state.isLoggedIn);
     return (
-      <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
-        <nav class="navbar navbar-expand-md navbar-light" style={{ backgroundColor: '#e4f3fe' }}>
-          <NavLink to="/" className="nav-brand">
-            <a className="navbar-brand" href="#" style={{ letterSpacing: '2px' }}>
-              genero<span style={{ color: 'gray', letterSpacing: '3px' }}>city</span>
-            </a>
-          </NavLink>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav mr-auto">
-              <li className="nav-item active">
-                <NavLink to="/profile" className="nav-link">
-                  Profile
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink to="/messages" className="nav-link">
-                  Messages
-                </NavLink>
-              </li>
-
-              <div id="filterBox">
-                <select
-                  className="form-control"
-                  id="exampleFormControlSelect1"
-                  name="itemCategory"
-                  value={this.state.displayCat}
-                  onChange={(e) => {
-                    this.handleFilterChange(e);
-                  }}
-                >
-                  <option value="All">All Categories</option>
-                  <option value="Appliances">Appliances</option>
-                  <option value="Plants">Plants</option>
-                  <option value="Sports">Sports</option>
-                  <option value="Clothing">Clothing</option>
-                  <option value="Books">Books</option>
-                  <option value="Miscellaneous">Miscellaneous</option>
-                </select>
+      <Switch>
+        <Route
+          exact
+          path="/"
+          render={(props) =>
+            this.state.isLoggedIn ? (
+              <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
+                <Nav
+                  from="main"
+                  displayCat={this.state.displayCat}
+                  handleFilterChange={this.handleFilterChange}
+                  handleLogout={this.handleLogout}
+                />
+                <Home
+                  {...props}
+                  displayedItems={this.state.displayedItems}
+                  userItems={this.state.userItems}
+                  userEmail={this.state.userEmail}
+                  userAddress={this.state.userAddress}
+                  userId={this.state.user_id}
+                  sendMessage={this.handleSendMessage}
+                  handleSubmit={this.handleSubmit}
+                  handleFileChange={this.handleFileChange}
+                  handleChange={this.handleChange}
+                  handleFilterChange={this.handleFilterChange}
+                  getAllItems={this.getAllItems}
+                />
               </div>
-            </ul>
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <NavLink to="/login" className="nav-link" style={{ marginRight: '10px' }}>
-                  Login
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink to="/signup" className="nav-link">
-                  Sign Up
-                </NavLink>
-              </li>
-            </ul>
-          </div>
-        </nav>
-
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={(props) => (
-              <Home
-                {...props}
-                displayedItems={this.state.displayedItems}
-                userItems={this.state.userItems}
-                userEmail={this.state.userEmail}
-                userAddress={this.state.userAddress}
-                userId={this.state.user_id}
-                sendMessage={this.handleSendMessage}
-                handleSubmit={this.handleSubmit}
-                handleFileChange={this.handleFileChange}
-                handleChange={this.handleChange}
+            ) : (
+              <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
+                <Nav from="landing" displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
+                <Landing />
+              </div>
+            )
+          }
+        />
+        <Route
+          exact
+          path="/additem"
+          render={(props) => (
+            <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
+              <Nav
+                from="additem"
+                displayCat={this.state.displayCat}
                 handleFilterChange={this.handleFilterChange}
+                handleLogout={this.handleLogout}
               />
-            )}
-          />
-          <Route
-            exact
-            path="/additem"
-            render={(props) => (
               <AddItem
                 {...props} // add props here
               />
-            )}
-          />
-          <Route
-            exact
-            path="/login"
-            render={(props) => (
+            </div>
+          )}
+        />
+        <Route
+          exact
+          path="/login"
+          render={(props) => (
+            <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
+              <Nav from="login" displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
               <Login
                 {...props} // add props here
                 handleLoginSubmit={this.handleLoginSubmit}
                 handleChange={this.handleChange}
               />
-            )}
-          />
-          <Route
-            exact
-            path="/signup"
-            render={(props) => (
+            </div>
+          )}
+        />
+        <Route
+          exact
+          path="/signup"
+          render={(props) => (
+            <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
+              <Nav from="signup" displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
               <SignUp
                 handleChange={this.handleChange}
                 handleSignUpSubmit={this.handleSignUpSubmit}
                 {...props} // add props here
               />
-            )}
-          />
-          <Route
-            exact
-            path="/profile"
-            render={(props) => (
+            </div>
+          )}
+        />
+        <Route
+          exact
+          path="/profile"
+          render={(props) => (
+            <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
+              <Nav
+                from="profile"
+                displayCat={this.state.displayCat}
+                handleFilterChange={this.handleFilterChange}
+                handleLogout={this.handleLogout}
+              />
               <Profile
                 {...props}
                 allItems={this.state.allItems}
@@ -363,28 +344,57 @@ class App extends Component {
                 userFirstName={this.state.userFirstName}
                 userLastName={this.state.userLastName}
               />
-            )}
-          />
-          <Route
-            exact
-            path="/chat"
-            render={(props) => (
+            </div>
+          )}
+        />
+        <Route
+          exact
+          path="/chat"
+          render={(props) => (
+            <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
+              <Nav
+                from="chat"
+                displayCat={this.state.displayCat}
+                handleFilterChange={this.handleFilterChange}
+                handleLogout={this.handleLogout}
+              />
               <Chat
                 {...props}
                 allItems={this.state.allItems}
                 userEmail={this.state.userEmail}
                 userLocation={this.state.userZip}
               />
-            )}
-          />
+            </div>
+          )}
+        />
 
-          <Route
-            exact
-            path="/messages"
-            render={(props) => <Messages {...props} msgRooms={this.state.msgRooms} userEmail={this.state.userEmail} />}
-          />
-        </Switch>
-      </div>
+        <Route
+          exact
+          path="/messages"
+          render={(props) => (
+            <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
+              <Nav
+                from="messages"
+                displayCat={this.state.displayCat}
+                handleFilterChange={this.handleFilterChange}
+                handleLogout={this.handleLogout}
+              />
+              <Messages {...props} msgRooms={this.state.msgRooms} userEmail={this.state.userEmail} />
+            </div>
+          )}
+        />
+        {/* Temporary route to manually get to main landing page */}
+        <Route
+          exact
+          path="/landing"
+          render={(props) => (
+            <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
+              <Nav from="landing" displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
+              <Landing />
+            </div>
+          )}
+        />
+      </Switch>
     );
   }
 }
