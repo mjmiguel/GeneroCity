@@ -56,14 +56,13 @@ UserController.createUser = async (req, res, next) => {
           values: [userEmail, firstName, lastName, hashedPassword, address.rows[0]._id],
         };
 
+        // create new user and pass to res.locals (without hashed password)
         let newUser = await db.query(createUserQuery);
-        res.locals.newUser = newUser[0].reduce((acc, curr) => {
-          acc.curr = curr;
+        res.locals.newUser = Object.keys(newUser.rows[0]).reduce((acc, curr) => {
+          if (curr !== 'password') acc[curr] = newUser.rows[0][curr];
           return acc;
         }, {});
 
-        console.log('new res locals ', res.locals.newUser);
-        // res.locals.newUser = newUser.rows[0];
         return next();
       } catch (e) {
         return next(e);
@@ -84,19 +83,20 @@ UserController.verifyUser = async (req, res, next) => {
   const { userEmail, password } = req.body;
 
   const findUserQuery = `
-  SELECT *
-  FROM users u 
-  INNER JOIN address a ON u.address_id=a._id WHERE email = $1;`;
+    SELECT *
+    FROM users u 
+    INNER JOIN address a ON u.address_id=a._id WHERE email = $1;`;
   const values = [userEmail];
   try {
     const user = await db.query(findUserQuery, values);
-    console.log('found user ', user.rows[0])
-    // res.locals.verifiedUser = Object.values(user[0]).reduce((acc, curr) => {
-    //   acc.curr = curr;
-    //   return acc;
-    // }, {});
-    res.locals.verifiedUser = user.rows[0];
-    console.log('new res locals ', res.locals.verifiedUser);
+
+    // query database for user and store in res.locals (without hashed password)
+    let verifiedUser = await db.query(findUserQuery, values);
+    res.locals.verifiedUser = Object.keys(verifiedUser.rows[0]).reduce((acc, curr) => {
+      if (curr !== 'password') acc[curr] = verifiedUser.rows[0][curr];
+      return acc;
+    }, {});
+
     bcrypt.compare(password, user.rows[0].password, (err, result) => {
       if (err) return next(err);
       return result ? next() : next({ log: 'Incorrect password' });
