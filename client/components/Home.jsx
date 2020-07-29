@@ -12,19 +12,14 @@ class Home extends Component {
     // tracks AddItem values
   }
 
-
   render() {
-    const { allItems } = this.props; // provides this.state.allItems as an array
+    const { displayedItems } = this.props; // provides this.state.allItems as an array
 
     // use map method to transform allItems into cards
-    const cards = allItems.map((item) => {
+    const cards = displayedItems.map((item, index) => {
       return (
         <div className="card">
-          <ItemCard
-            item={item}
-            sendMessageButton={this.props.sendMessage}
-            inProfile={false}
-          />
+          <ItemCard key={index} item={item} sendMessageButton={this.props.sendMessage} inProfile={false} />
         </div>
       );
     });
@@ -35,12 +30,7 @@ class Home extends Component {
           <section className="leftNav"></section>
           <section className="rightNav">
             {/* <!-- Button trigger modal --> */}
-            <button
-              type="button"
-              class="btn btn-dark addItemBtn"
-              data-toggle="modal"
-              data-target="#addItemModal"
-            >
+            <button type="button" class="btn btn-dark addItemBtn" data-toggle="modal" data-target="#addItemModal">
               Add Item
             </button>
           </section>
