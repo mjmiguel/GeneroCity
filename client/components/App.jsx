@@ -235,13 +235,13 @@ class App extends Component {
 
   render() {
     return (
-      <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
-        <Nav displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={(props) => (
+      <Switch>
+        <Route
+          exact
+          path="/"
+          render={(props) => (
+            <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
+              <Nav displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
               <Home
                 {...props}
                 displayedItems={this.state.displayedItems}
@@ -255,43 +255,55 @@ class App extends Component {
                 handleChange={this.handleChange}
                 handleFilterChange={this.handleFilterChange}
               />
-            )}
-          />
-          <Route
-            exact
-            path="/additem"
-            render={(props) => (
+            </div>
+          )}
+        />
+        <Route
+          exact
+          path="/additem"
+          render={(props) => (
+            <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
+              <Nav displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
               <AddItem
                 {...props} // add props here
               />
-            )}
-          />
-          <Route
-            exact
-            path="/login"
-            render={(props) => (
+            </div>
+          )}
+        />
+        <Route
+          exact
+          path="/login"
+          render={(props) => (
+            <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
+              <Nav displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
               <Login
                 {...props} // add props here
                 handleLoginSubmit={this.handleLoginSubmit}
                 handleChange={this.handleChange}
               />
-            )}
-          />
-          <Route
-            exact
-            path="/signup"
-            render={(props) => (
+            </div>
+          )}
+        />
+        <Route
+          exact
+          path="/signup"
+          render={(props) => (
+            <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
+              <Nav displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
               <SignUp
                 handleChange={this.handleChange}
                 handleSignUpSubmit={this.handleSignUpSubmit}
                 {...props} // add props here
               />
-            )}
-          />
-          <Route
-            exact
-            path="/profile"
-            render={(props) => (
+            </div>
+          )}
+        />
+        <Route
+          exact
+          path="/profile"
+          render={(props) => (
+            <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
+              <Nav displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
               <Profile
                 {...props}
                 allItems={this.state.allItems}
@@ -300,30 +312,47 @@ class App extends Component {
                 userFirstName={this.state.userFirstName}
                 userLastName={this.state.userLastName}
               />
-            )}
-          />
-          <Route
-            exact
-            path="/chat"
-            render={(props) => (
+            </div>
+          )}
+        />
+        <Route
+          exact
+          path="/chat"
+          render={(props) => (
+            <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
+              <Nav displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
               <Chat
                 {...props}
                 allItems={this.state.allItems}
                 userEmail={this.state.userEmail}
                 userLocation={this.state.userZip}
               />
-            )}
-          />
+            </div>
+          )}
+        />
 
-          <Route
-            exact
-            path="/messages"
-            render={(props) => <Messages {...props} msgRooms={this.state.msgRooms} userEmail={this.state.userEmail} />}
-          />
+        <Route
+          exact
+          path="/messages"
+          render={(props) => (
+            <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
+              <Nav displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
+              <Messages {...props} msgRooms={this.state.msgRooms} userEmail={this.state.userEmail} />
+            </div>
+          )}
+        />
 
-          <Route exact path="/landing" render={(props) => <Landing />} />
-        </Switch>
-      </div>
+        <Route
+          exact
+          path="/landing"
+          render={(props) => (
+            <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
+              <Nav displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
+              <Landing />
+            </div>
+          )}
+        />
+      </Switch>
     );
   }
 }

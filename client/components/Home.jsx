@@ -61,19 +61,6 @@ class Home extends Component {
                   handleFileChange={this.props.handleFileChange}
                 />
               </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-dismiss="modal">
-                  Close
-                </button>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  data-dismiss="modal"
-                  onClick={(e) => this.props.handleSubmit(e)}
-                >
-                  Add Item
-                </button>
-              </div>
             </div>
           </div>
         </div>
