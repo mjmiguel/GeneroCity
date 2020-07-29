@@ -146,23 +146,23 @@ class App extends Component {
     const { userEmail, password } = this.state;
     const body = { userEmail, password };
 
-    // fetch('/log-in', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'Application/JSON',
-    //   },
-    //   body: JSON.stringify(body),
-    // })
-    //   .then((res) => {
-    //     console.log('res in /log-in', res);
-    //     res.json();
-    this.props.history.push('/');
-    this.setState({ isLoggedIn: true, password: '' });
-    // })
-    // .catch((err) => {
-    //   console.log('/LOG-IN Post error: ', err);
-    //   this.setState({ userEmail: '', password: '' });
-    // });
+    fetch('/user/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'Application/JSON',
+      },
+      body: JSON.stringify(body),
+    })
+      .then((res) => {
+        console.log('res in /log-in', res);
+        res.json();
+        this.props.history.push('/');
+        this.setState({ isLoggedIn: true, password: '' });
+      })
+      .catch((err) => {
+        console.log('/LOG-IN Post error: ', err);
+        this.setState({ userEmail: '', password: '' });
+      });
   }
 
   handleLogout() {
