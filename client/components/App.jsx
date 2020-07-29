@@ -175,7 +175,7 @@ class App extends Component {
 
     const { userFirstName, userLastName, password, userEmail, userStreet, userState, userCity, userZip } = this.state;
     const body = {
-      email: userEmail,
+      userEmail,
       password,
       firstName: userFirstName,
       lastName: userLastName,
@@ -200,7 +200,7 @@ class App extends Component {
       .then((res) => {
         // console.log('res', res);
         this.props.history.push('/');
-        // this.setState({})
+        this.setState({ isLoggedIn: true, password: '' });
       })
       .catch((err) => {
         console.log('AddItem Post error: ', err);
