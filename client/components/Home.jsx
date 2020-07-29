@@ -18,7 +18,7 @@ class Home extends Component {
     // use map method to transform allItems into cards
     const cards = displayedItems.map((item, index) => {
       return (
-        <div className="card">
+        <div key={index} className="card">
           <ItemCard key={index} item={item} sendMessageButton={this.props.sendMessage} inProfile={false} />
         </div>
       );
@@ -30,7 +30,7 @@ class Home extends Component {
           <section className="leftNav"></section>
           <section className="rightNav">
             {/* <!-- Button trigger modal --> */}
-            <button type="button" class="btn btn-dark addItemBtn" data-toggle="modal" data-target="#addItemModal">
+            <button type="button" className="btn btn-dark addItemBtn" data-toggle="modal" data-target="#addItemModal">
               Add Item
             </button>
           </section>
