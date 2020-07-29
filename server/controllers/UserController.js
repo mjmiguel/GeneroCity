@@ -80,11 +80,16 @@ UserController.createUser = async (req, res, next) => {
 
 UserController.verifyUser = async (req, res, next) => {
   const { userEmail, password } = req.body;
-
+  const findUserQuery = {
+    text: `
+    SELECT u._id, u.email, u.password, a.street, a.city, a.state, a.zipcode
+    FROM users u
+    INNER JOIN address a ON u.address_id=a._id WHERE email = VALUES($1);`,
+    values: [userEmail, password]
+  };
   try {
-    const findUser = `SELECT _id, email, password FROM users WHERE email = '${userEmail}';`;
-    const user = await db.query(findUser);
-
+    const user = await db.query(findUserQuery);
+    res.locals.verifiedUser = user.rows[0];
     bcrypt.compare(password, user.rows[0].password, (err, result) => {
       if (err) return next(err);
       return (result ? next() : next({ log: 'Incorrect password' }))
