@@ -1,6 +1,6 @@
 const db = require('../models/Models');
 const bcrypt = require('bcryptjs');
-const SALT_WORK_FACTOR = 10 // should be at least 1-
+const SALT_WORK_FACTOR = 10 // should be at least 10
 
 const UserController = {};
 
@@ -45,7 +45,7 @@ UserController.createUser = async (req, res, next) => {
     const address = await db.query(createAddressQuery);
 
     // hash the provided password with brcrypt before insertion into db
-    await bcrypt.hash(password, SALT_WORK_FACTOR, async (err, hash) => {
+    bcrypt.hash(password, SALT_WORK_FACTOR, async (err, hash) => {
       if (err) return next(err);
       let hashedPassword = hash;
 
@@ -58,7 +58,7 @@ UserController.createUser = async (req, res, next) => {
   
       let newUser = await db.query(createUserQuery, (err, res) => {
         if (err) return next(err)
-        console.log('error in createUsers', res)
+        console.log('user created', res.rows[0])
       });
       // console.log('successfully create email', email);
       // send data back to client
@@ -82,7 +82,7 @@ UserController.verifyUser = async (req, res, next) => {
     const findUser = `SELECT _id, email, password FROM users WHERE email = '${userEmail}';`;
     const user = await db.query(findUser);
 
-    await bcrypt.compare(password, user.rows[0].password, (err, result) => {
+    bcrypt.compare(password, user.rows[0].password, (err, result) => {
       if (err) return next(err);
       return (result ? next() : next({ log: 'Incorrect password' }))
     });
