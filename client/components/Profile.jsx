@@ -90,25 +90,23 @@ class Profile extends Component {
   //}
   render() {
     const { userItems } = this.state;
-    const cards = userItems.map((item) => {
+    const cards = userItems.map((item, index) => {
       return (
-        <>
-          <section className="card">
-            <ItemCard
-              item={item}
-              inProfile={true}
-              name={item.itemTitle}
-              userid={item.itemUserId}
-              location={item.itemAddress}
-              status={item.itemStatus}
-            />
-            <section className="cardItem">
-              <button type="button" className="btn btn-dark editItemBtn" data-toggle="modal" data-target="#editItemModal">
-                Edit Item
-              </button>
-            </section>
+        <section key={index} className="card">
+          <ItemCard
+            item={item}
+            inProfile={true}
+            name={item.itemTitle}
+            userid={item.itemUserId}
+            location={item.itemAddress}
+            status={item.itemStatus}
+          />
+          <section className="cardItem">
+            <button type="button" className="btn btn-dark editItemBtn" data-toggle="modal" data-target="#editItemModal">
+              Edit Item
+            </button>
           </section>
-        </>
+        </section>
       );
     });
 

@@ -161,7 +161,7 @@ class App extends Component {
       .then((res) => res.json())
       .then((user) => {
         this.props.history.push('/');
-        this.setState({ isLoggedIn: true, user: user, user_id: user.id });
+        this.setState({ isLoggedIn: true, user: user, user_id: user._id });
       })
       .catch((err) => {
         console.log('/LOG-IN Post error: ', err);
@@ -202,7 +202,7 @@ class App extends Component {
       .then((user) => {
         // console.log('res', res);
         this.props.history.push('/');
-        this.setState({ isLoggedIn: true, user: user, user_id: user.id });
+        this.setState({ isLoggedIn: true, user: user, user_id: user._id });
       })
       .catch((err) => {
         console.log('AddItem Post error: ', err);
