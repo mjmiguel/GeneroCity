@@ -159,8 +159,12 @@ class App extends Component {
     })
       .then((res) => res.json())
       .then((user) => {
-        this.props.history.push('/');
-        this.setState({ isLoggedIn: true, user: user, user_id: user._id });
+        if(user.isLoggedIn) {
+          this.props.history.push('/');
+          this.setState({ isLoggedIn: true, user: user, user_id: user._id });
+        } else {
+          console.log('invalid username/password');
+        }
       })
       .catch((err) => {
         console.log('/LOG-IN Post error: ', err);
@@ -187,37 +191,42 @@ class App extends Component {
     e.preventDefault();
 
     const { userFirstName, userLastName, password, userEmail, userStreet, userState, userCity, userZip } = this.state.user;
-    const body = {
-      userEmail,
-      password,
-      firstName: userFirstName,
-      lastName: userLastName,
-      zipCode: userZip,
-      street: userStreet,
-      city: userCity,
-      state: userState,
-    };
-
-    fetch('/user/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'Application/JSON',
-      },
-      body: JSON.stringify(body),
-    })
-      .then((res) => res.json())
-      // TODO: setState with isLoggedIn, clear pw
-      // return to home page
-      .then((user) => {
-        // console.log('res', res);
-        this.props.history.push('/');
-        this.setState({ isLoggedIn: true, user: user, user_id: user._id });
+    if (!userEmail || !password || !userFirstName || !userLastName || !userCity || !userState) {
+      return console.log('need: email, password, firstname, lastname, city, state');
+    } else {
+      const body = {
+        userEmail,
+        password,
+        firstName: userFirstName,
+        lastName: userLastName,
+        zipCode: userZip,
+        street: userStreet,
+        city: userCity,
+        state: userState,
+      };
+  
+      fetch('/user/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'Application/JSON',
+        },
+        body: JSON.stringify(body),
       })
-      .catch((err) => {
-        console.log('AddItem Post error: ', err);
-        // todo - clear all fields with setState
-        this.setState({});
-      });
+        .then((res) => res.json())
+        .then((user) => {
+          if (user.isLoggedIn) {
+            this.props.history.push('/');
+            this.setState({ isLoggedIn: true, user: user, user_id: user._id });
+          } else {
+            console.log('email already exists');
+          }
+        })
+        .catch((err) => {
+          console.log('AddItem Post error: ', err);
+          // todo - clear all fields with setState
+          this.setState({});
+        });
+    }
   }
 
   // ---------------------check session - called in componentDidMount-------------------------
