@@ -159,8 +159,12 @@ class App extends Component {
     })
       .then((res) => res.json())
       .then((user) => {
-        this.props.history.push('/');
-        this.setState({ isLoggedIn: true, user: user, user_id: user._id });
+        if(user.isLoggedIn) {
+          this.props.history.push('/');
+          this.setState({ isLoggedIn: true, user: user, user_id: user._id });
+        } else {
+          console.log('invalid username/password');
+        }
       })
       .catch((err) => {
         console.log('/LOG-IN Post error: ', err);
