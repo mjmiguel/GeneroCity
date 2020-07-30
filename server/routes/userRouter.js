@@ -14,6 +14,8 @@ router.post(
   CookieController.setSSIDCookie,
   SessionController.startSession,
   (req, res, next) => {
+    // prevent login if user email already exists
+    if (res.locals.user) return res.status(442).json({ isLoggedIn: false });
     console.log('new user in express ', res.locals.newUser);
     return res.status(200).json({ ...res.locals.newUser, id: res.locals.ssid });
   }
@@ -26,8 +28,8 @@ router.post(
   CookieController.setSSIDCookie,
   SessionController.startSession,
   (req, res, next) => {
-    console.log('user logged in ', res.locals.verifiedUser);
-    return res.status(200).json({ ...res.locals.verifiedUser, id: res.locals.ssid });
+    console.log('user logged in ');
+    return res.status(200).json({ ...res.locals.verifiedUser, id: res.locals.ssid, isLoggedIn: true });
   }
   );
 
