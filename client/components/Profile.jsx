@@ -14,10 +14,11 @@ class Profile extends Component {
       userItems: [],
     };
     // handleChange on edit of items
-    // this.handleChange = this.handleChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
-    // this.handleFileChange = this.handleFileChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFileChange = this.handleFileChange.bind(this);
     this.getUserItems = this.getUserItems.bind(this);
+    this.handleEditParamSet = this.handleEditParamSet.bind(this);
     //
   }
 
@@ -33,6 +34,13 @@ class Profile extends Component {
     console.log('input Image:', e.target.value);
     this.setState({
       itemImage: e.target.value,
+    });
+  }
+
+  handleEditParamSet(e) {
+    // console.log(e.target.value);
+    this.setState({
+      _id: e.target.value,
     });
   }
   //
@@ -53,41 +61,43 @@ class Profile extends Component {
   }
 
   /*--- POST request to edit item to server---- */
-  // handleSubmit(e) {
-  //   e.preventDefault();
-  //   const { itemTitle, itemDescription, itemCategory, itemImage, claimed, _id } = this.state;
-  //   const body = {
-  //     title: itemTitle,
-  //     description: itemDescription,
-  //     image: itemImage,
-  //     category: itemCategory,
-  //     status: claimed,
-  //     id: _id,
-  //   };
+  handleSubmit(e) {
+    e.preventDefault();
+    const { itemTitle, itemDescription, itemCategory, itemImage, claimed } = this.state;
+    const itemId = this.state._id;
+    const body = {
+      title: itemTitle,
+      description: itemDescription,
+      image: itemImage,
+      category: itemCategory,
+      status: claimed,
+    };
 
-  // console.log('submit EditItem req body:', body);
-  // const itemId = this.state.itemId;
-  // fetch(path.resolve('/items/', itemId), {
-  //   method: 'PATCH',
-  //   headers: {
-  //     'Content-Type': 'Application/JSON',
-  //   },
-  //   body: JSON.stringify(body),
-  // })
-  //   .then((res) => {
-  //     res.json();
-  //     // refresh state values
-  //     // this.setState({ itemTitle: '', itemDescription: '', itemCategory: '', itemImage: '', itemAddress: '' })
-  //     // return to home page
-  //     // this.props.history.push('/')
-  //     console.log('res in AddItem', res);
-  //   })
-  //   .catch((err) => {
-  //     console.log('AddItem Post error: ', err);
-  //     // this.setState({ itemTitle: '', itemDescription: '', itemCategory: '', itemImage: '', itemAddress: '' })
-  //     this.props.history.push('/');
-  //   });
-  //}
+    console.log('submit EditItem req body:', body);
+    fetch(`/item/${itemId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'Application/JSON',
+      },
+      body: JSON.stringify(body),
+    })
+      .then((res) => {
+        res.json();
+        // refresh state values
+        // this.setState({ itemTitle: '', itemDescription: '', itemCategory: '', itemImage: '', itemAddress: '' })
+        // return to home page
+        // this.props.history.push('/')
+      })
+      .then((item) => {
+        this.props.history.push('/');
+        this.setState({ itemTitle: '', itemDescription: '', itemCategory: '', itemImage: '', itemAddress: '' });
+      })
+      .catch((err) => {
+        console.log('AddItem Post error: ', err);
+        // this.setState({ itemTitle: '', itemDescription: '', itemCategory: '', itemImage: '', itemAddress: '' })
+        this.props.history.push('/');
+      });
+  }
   render() {
     const { userItems } = this.state;
     const cards = userItems.map((item, index) => {
@@ -102,7 +112,14 @@ class Profile extends Component {
             status={item.itemStatus}
           />
           <section className="cardItem">
-            <button type="button" className="btn btn-dark editItemBtn" data-toggle="modal" data-target="#editItemModal">
+            <button
+              value={item._id}
+              onClick={this.handleEditParamSet}
+              type="button"
+              className="btn btn-dark editItemBtn"
+              data-toggle="modal"
+              data-target="#editItemModal"
+            >
               Edit Item
             </button>
           </section>
@@ -141,7 +158,12 @@ class Profile extends Component {
                 <button type="button" className="btn btn-secondary loginAndSignUpBtn" data-dismiss="modal">
                   Close
                 </button>
-                <button type="submit" className="btn btn-primary loginAndSignUpBtn" onClick={(e) => this.handleSubmit(e)}>
+                <button
+                  type="submit"
+                  className="btn btn-primary loginAndSignUpBtn"
+                  data-dismiss="modal"
+                  onClick={(e) => this.handleSubmit(e)}
+                >
                   Edit Item
                 </button>
               </div>
