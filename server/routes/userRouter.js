@@ -47,6 +47,7 @@ router.get('/:user_id', UserController.getUserItems, (req, res, next) => {
 // hanlde logout requests
 // router.post('/logout', SessionController.endSession, (req, res, next) => {
 //   return res.status(200).json({ msg: 'ended session' });
+
 // });
 
 module.exports = router;

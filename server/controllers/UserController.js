@@ -30,8 +30,9 @@ UserController.createUser = async (req, res, next) => {
   const { userEmail, password, firstName, lastName, zipCode, street, city, state } = req.body;
   try {
     // if user is in database, send res of user exists
-    const findUser = `SELECT email, password FROM users WHERE (email = '${userEmail}');`;
-    const user = await db.query(findUser);
+    const values = [userEmail];
+    const findUser = `SELECT email, password FROM users WHERE email = $1;`;
+    const user = await db.query(findUser, values);
     console.log('found user ', user.rows[0]);
     if (user.rows[0]) return res.status(200).send(`${userEmail} already exists`);
 

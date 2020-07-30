@@ -38,6 +38,7 @@ SessionController.isLoggedIn = async (req, res, next) => {
   INNER JOIN address a ON u.address_id=a._id
   WHERE (s.cookie = $1);`;
 
+
   const values = [ssid];
 
   try {
