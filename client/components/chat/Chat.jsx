@@ -91,7 +91,7 @@ const Chat = (props) => {
 
       <form>
         <div className="form-group">
-          <label for="exampleFormControlTextarea1"></label>
+          <label htmlFor="exampleFormControlTextarea1"></label>
           <textarea
             className="form-control"
             id="exampleFormControlTextarea1"

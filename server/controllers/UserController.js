@@ -8,7 +8,7 @@ UserController.getUserItems = (req, res, next) => {
   // console.log(`req.params.id`, req.params.user);
   const { user_id } = req.params;
   // console.log('user', user_id);
-  console.log('req params in get user items ', user_id )
+  console.log('req params in get user items ', user_id);
   const query = `SELECT u._id, u.email, i.*
   FROM users u
   RIGHT OUTER JOIN items i ON u._id=i.user_id
@@ -84,7 +84,7 @@ UserController.verifyUser = async (req, res, next) => {
   const { userEmail, password } = req.body;
 
   const findUserQuery = `
-    SELECT u._id, u.email, u."firstName", u."lastName", u.password, u.points, a.zipcode, a.street, a.city, a.state
+    SELECT u._id, u.email, u."firstName", u."lastName", u."password", u."points", a."zipcode", a."street", a."city", a."state"
     FROM users u
     INNER JOIN address a ON u.address_id=a._id WHERE email = $1;`;
   const values = [userEmail];

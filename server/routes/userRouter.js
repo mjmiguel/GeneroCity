@@ -7,7 +7,6 @@ const SessionController = require('../controllers/SessionController.js');
 
 const router = express.Router();
 
-
 // POST request to add user
 router.post(
   '/signup',
@@ -18,11 +17,11 @@ router.post(
     console.log('new user in express ', res.locals.newUser);
     return res.status(200).json({ ...res.locals.newUser, id: res.locals.ssid });
   }
-  );
-  
-  // handle login requests
-  router.post(
-    '/login',
+);
+
+// handle login requests
+router.post(
+  '/login',
   UserController.verifyUser,
   CookieController.setSSIDCookie,
   SessionController.startSession,
