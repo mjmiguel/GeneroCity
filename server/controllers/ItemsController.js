@@ -44,15 +44,23 @@ ItemsController.postItem = (req, res, next) => {
 ItemsController.editUserItem = (req, res, next) => {
   const { item_id } = req.params;
   const { title, description, image, category, status } = req.body;
+  const queryObj = {
+    title: title,
+    description: description,
+    image: image,
+    category: category,
+    status: status,
+  };
 
-  const query = `
-  UPDATE public.items
-  SET title='${title}',
-  description='${description}',
-  image='${image}',
-  category='${category}',
-  status='${status}'
-  WHERE _id=${item_id}`;
+  let queryStart = `UPDATE public.items SET `;
+  const queryEnd = `WHERE _id=${item_id}`;
+
+  for (let val in queryObj) {
+    if (queryObj[val]) {
+      queryStart += `${val}='${queryObj[val]}' `;
+    }
+  }
+  const query = queryStart + queryEnd;
 
   db.query(query, (err, data) => {
     if (err) {

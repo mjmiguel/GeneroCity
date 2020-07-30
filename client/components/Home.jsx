@@ -17,24 +17,34 @@ class Home extends Component {
   }
 
   render() {
-    const { displayedItems } = this.props; // provides this.state.allItems as an array
-
+    const { displayedItems } = this.props;
+    console.log('displayedItems is here:   ', this.props);
     // use map method to transform allItems into cards
     const cards = displayedItems.map((item, index) => {
       return (
         <div key={index} className="card">
-          <ItemCard key={index} item={item} sendMessageButton={this.props.sendMessage} inProfile={false} />
+          <ItemCard
+            key={index}
+            item={item}
+            sendMessageButton={this.props.sendMessage}
+            inProfile={false}
+          />
         </div>
       );
     });
-
+    console.log('This is cards in HOME:  ', cards);
     return (
       <>
         <section className="innerNav">
           <section className="leftNav"></section>
           <section className="rightNav">
             {/* <!-- Button trigger modal --> */}
-            <button type="button" className="btn btn-dark addItemBtn" data-toggle="modal" data-target="#addItemModal">
+            <button
+              type="button"
+              className="btn btn-dark addItemBtn"
+              data-toggle="modal"
+              data-target="#addItemModal"
+            >
               Add Item
             </button>
           </section>
@@ -48,13 +58,21 @@ class Home extends Component {
           aria-labelledby="exampleModalScrollableTitle"
           aria-hidden="true"
         >
-          <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div
+            className="modal-dialog modal-dialog-centered modal-lg"
+            role="document"
+          >
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalScrollableTitle">
                   Add an Item
                 </h5>
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>

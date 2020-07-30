@@ -6,9 +6,9 @@ import { withRouter } from 'react-router';
 const Nav = (props) => {
   const logoBtn = (
     <NavLink to="/" className="nav-brand">
-      <a className="navbar-brand" href="#" style={{ letterSpacing: '2px' }}>
+      <span className="navbar-brand" style={{ letterSpacing: '2px' }}>
         genero<span style={{ color: 'gray', letterSpacing: '3px' }}>city</span>
-      </a>
+      </span>
     </NavLink>
   );
 

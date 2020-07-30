@@ -15,7 +15,7 @@ class Login extends Component {
           <h3 style={{ textAlign: 'center', margin: '30px', color: '$warmGray' }}>connect</h3>
           <form>
             <div className="form-group loginAndSignUp">
-              <label for="exampleInputEmail1">Email address</label>
+              <label htmlFor="exampleInputEmail1">Email address</label>
               <input
                 type="email"
                 className="form-control"
@@ -30,7 +30,7 @@ class Login extends Component {
               </small>
             </div>
             <div className="form-group loginAndSignUp">
-              <label for="exampleInputPassword1">Password</label>
+              <label htmlFor="exampleInputPassword1">Password</label>
               <input
                 type="password"
                 className="form-control"

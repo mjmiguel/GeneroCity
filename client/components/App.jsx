@@ -150,7 +150,7 @@ class App extends Component {
     const { userEmail, password } = this.state.user;
     const body = { userEmail, password };
 
-    console.log(body);
+
 
     fetch('/user/login', {
       method: 'POST',
@@ -171,7 +171,16 @@ class App extends Component {
   }
 
   handleLogout() {
-    this.setState({ isLoggedIn: false, user: {} });
+    fetch('/user/logout', {
+      method: 'DELETE',
+    })
+      .then((res) => {res.json()
+        this.setState({ isLoggedIn: false, user: '', user_id: '' });
+        this.props.history.push('/');
+      })
+      .catch((err) => {
+        console.log('/logout DELETE error: ', err);
+      });
   }
 
   /*----------------POST request To SIGNUP-------------------*/
