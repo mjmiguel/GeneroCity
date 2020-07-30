@@ -95,7 +95,6 @@ class AddItem extends Component {
                 name="itemImage"
                 onChange={(e) => this.props.handleFileChange(e)}
               ></input>
-              <br />
               <input
                 type="text"
                 className="form-control form-control-lg"
@@ -104,8 +103,6 @@ class AddItem extends Component {
                 name="itemImage2"
                 onChange={(e) => this.props.handleFileChange(e)}
               ></input>
-              <br />
-
               <input
                 type="text"
                 className="form-control form-control-lg"
@@ -114,8 +111,6 @@ class AddItem extends Component {
                 name="itemImage3"
                 onChange={(e) => this.props.handleFileChange(e)}
               ></input>
-              <br />
-
               <input
                 type="text"
                 className="form-control form-control-lg"
