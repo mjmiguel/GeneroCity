@@ -23,13 +23,18 @@ h6 {
 }
 
 /* items grid container */
+// .itemsContainer {
+//   padding: 3rem;
+//   display: grid;
+//   align-self: flex-end;
+//   justify-self: center;
+//   grid-template-columns: 20fr 20fr 20fr 20fr 20fr; /*can add a media query for smaller screens/responsivity*/
+//   max-width: 1200px;
+// }
+
 .itemsContainer {
-  padding: 3rem;
-  display: grid;
-  align-self: flex-end;
-  justify-self: center;
-  grid-template-columns: 20fr 20fr 20fr 20fr 20fr; /*can add a media query for smaller screens/responsivity*/
-  max-width: 1200px;
+  display: flex;
+  flex-wrap: wrap;
 }
 /* card container: which includes everything within a card */
 .card {
