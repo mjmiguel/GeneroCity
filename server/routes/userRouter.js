@@ -14,6 +14,8 @@ router.post(
   CookieController.setSSIDCookie,
   SessionController.startSession,
   (req, res, next) => {
+    // prevent login if user email already exists
+    if (res.locals.user) return res.status(442).json({ isLoggedIn: false });
     console.log('new user in express ', res.locals.newUser);
     return res.status(200).json({ ...res.locals.newUser, id: res.locals.ssid });
   }
