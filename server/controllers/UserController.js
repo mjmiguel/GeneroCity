@@ -33,9 +33,11 @@ UserController.createUser = async (req, res, next) => {
     const values = [userEmail];
     const findUser = `SELECT email, password FROM users WHERE email = $1;`;
     const user = await db.query(findUser, values);
-    console.log('found user ', user.rows[0]);
-    if (user.rows[0]) return res.status(200).send(`${userEmail} already exists`);
-
+  
+    if (user.rows[0]) {
+      res.locals.user = user.rows[0];
+      return next({log: `${userEmail} already exists`});
+    }
     // create address in db
     const createAddressQuery = {
       text: 'INSERT INTO public.address(zipcode, street, city, state) VALUES($1, $2, $3, $4) RETURNING *',
