@@ -31,21 +31,21 @@ SessionController.isLoggedIn = async (req, res, next) => {
   const { ssid } = req.cookies;
 
   const sessionJoinQuery = `
-    SELECT u.*, s.*, a.*
-    FROM users u
-    RIGHT OUTER JOIN sessions s
-    ON u._id = s.user_id
-    INNER JOIN address a ON u.address_id=a._id
-    WHERE (s.cookie = $1)`;
+  SELECT u._id, u.email, u."firstName", u."lastName", u.password, u.points, a.zipcode, a.street, a.city, a.state
+  FROM users u
+  RIGHT OUTER JOIN sessions s
+  ON u._id = s.user_id
+  INNER JOIN address a ON u.address_id=a._id
+  WHERE (s.cookie = $1);`;
 
   const values = [ssid];
 
   try {
     const sessionJoin = await db.query(sessionJoinQuery, values);
-    if (sessionJoin.rows.length === 0) return next({ log: 'session not found, pls login'});
+    if (sessionJoin.rows.length === 0) return next({ log: 'session not found, pls login' });
 
-    const { _id, email, firstName,lastName, points,	address_id,	zipcode, street, city, state } = sessionJoin.rows[0];
-    res.locals.verifiedUser = { _id, email, firstName,lastName, points,	address_id,	zipcode, street, city, state };
+    const { _id, email, firstName, lastName, points, address_id, zipcode, street, city, state } = sessionJoin.rows[0];
+    res.locals.verifiedUser = { _id, email, firstName, lastName, points, address_id, zipcode, street, city, state };
     return next();
   } catch (e) {
     return next(e);

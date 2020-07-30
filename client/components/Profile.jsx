@@ -40,9 +40,9 @@ class Profile extends Component {
   /*--- GET request to get all items from server---- */
 
   getUserItems() {
-    const url = '/user/';
-    const id = this.props.userId.toString();
-    fetch(path.resolve(url, id))
+    // const url = '/user/get';
+    const id = this.props.userId;
+    fetch(`/user/${id}`)
       .then((res) => res.json())
       .then((res) => {
         this.setState({ userItems: res.allItems });
