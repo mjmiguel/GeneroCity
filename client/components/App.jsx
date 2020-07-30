@@ -13,6 +13,8 @@ import Landing from './Landing.jsx';
 import Nav from './Nav.jsx';
 import { Route, Switch, NavLink } from 'react-router-dom';
 import { withRouter } from 'react-router';
+import Available from './Available';
+import OnlineChatRoom from './OnlineChatRoom';
 // import { isLoggedIn } from '../../server/controllers/SessionController';
 
 class App extends Component {
@@ -148,8 +150,6 @@ class App extends Component {
     const { userEmail, password } = this.state.user;
     const body = { userEmail, password };
 
-
-
     fetch('/user/login', {
       method: 'POST',
       headers: {
@@ -172,7 +172,8 @@ class App extends Component {
     fetch('/user/logout', {
       method: 'DELETE',
     })
-      .then((res) => {res.json()
+      .then((res) => {
+        res.json();
         this.setState({ isLoggedIn: false, user: '', user_id: '' });
         this.props.history.push('/');
       })
@@ -222,16 +223,16 @@ class App extends Component {
   // ---------------------check session - called in componentDidMount-------------------------
   checkSession() {
     fetch('/user/checksession')
-    .then(res => res.json())
-    .then(user =>  {
-      if (user.isLoggedIn) {
-        this.props.history.push('/');
-        this.setState({ isLoggedIn: true, user: user, user_id: user._id });
-      }
-    })
-    .catch(err => {
-      console.log('/api/checksession GET error:', err);
-    })
+      .then((res) => res.json())
+      .then((user) => {
+        if (user.isLoggedIn) {
+          this.props.history.push('/');
+          this.setState({ isLoggedIn: true, user: user, user_id: user._id });
+        }
+      })
+      .catch((err) => {
+        console.log('/api/checksession GET error:', err);
+      });
   }
 
   /*--- GET Request for All items--- */
@@ -258,7 +259,10 @@ class App extends Component {
           path="/"
           render={(props) =>
             this.state.isLoggedIn ? (
-              <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
+              <div
+                className="backgroundColor"
+                style={{ backgroundColor: "#FDFDFD" }}
+              >
                 <Nav
                   from="main"
                   displayCat={this.state.displayCat}
@@ -281,8 +285,15 @@ class App extends Component {
                 />
               </div>
             ) : (
-              <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
-                <Nav from="landing" displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
+              <div
+                className="backgroundColor"
+                style={{ backgroundColor: "#FDFDFD" }}
+              >
+                <Nav
+                  from="landing"
+                  displayCat={this.state.displayCat}
+                  handleFilterChange={this.handleFilterChange}
+                />
                 <Landing />
               </div>
             )
@@ -292,7 +303,10 @@ class App extends Component {
           exact
           path="/additem"
           render={(props) => (
-            <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
+            <div
+              className="backgroundColor"
+              style={{ backgroundColor: "#FDFDFD" }}
+            >
               <Nav
                 from="additem"
                 displayCat={this.state.displayCat}
@@ -309,8 +323,15 @@ class App extends Component {
           exact
           path="/login"
           render={(props) => (
-            <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
-              <Nav from="login" displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
+            <div
+              className="backgroundColor"
+              style={{ backgroundColor: "#FDFDFD" }}
+            >
+              <Nav
+                from="login"
+                displayCat={this.state.displayCat}
+                handleFilterChange={this.handleFilterChange}
+              />
               <Login
                 {...props} // add props here
                 handleLoginSubmit={this.handleLoginSubmit}
@@ -323,8 +344,15 @@ class App extends Component {
           exact
           path="/signup"
           render={(props) => (
-            <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
-              <Nav from="signup" displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
+            <div
+              className="backgroundColor"
+              style={{ backgroundColor: "#FDFDFD" }}
+            >
+              <Nav
+                from="signup"
+                displayCat={this.state.displayCat}
+                handleFilterChange={this.handleFilterChange}
+              />
               <SignUp
                 handleUserChange={this.handleUserChange}
                 handleSignUpSubmit={this.handleSignUpSubmit}
@@ -337,14 +365,22 @@ class App extends Component {
           exact
           path="/profile"
           render={(props) => (
-            <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
+            <div
+              className="backgroundColor"
+              style={{ backgroundColor: "#FDFDFD" }}
+            >
               <Nav
                 from="profile"
                 displayCat={this.state.displayCat}
                 handleFilterChange={this.handleFilterChange}
                 handleLogout={this.handleLogout}
               />
-              <Profile {...props} allItems={this.state.allItems} userId={this.state.user_id} user={this.state.user} />
+              <Profile
+                {...props}
+                allItems={this.state.allItems}
+                userId={this.state.user_id}
+                user={this.state.user}
+              />
             </div>
           )}
         />
@@ -352,7 +388,10 @@ class App extends Component {
           exact
           path="/chat"
           render={(props) => (
-            <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
+            <div
+              className="backgroundColor"
+              style={{ backgroundColor: "#FDFDFD" }}
+            >
               <Nav
                 from="chat"
                 displayCat={this.state.displayCat}
@@ -373,14 +412,21 @@ class App extends Component {
           exact
           path="/messages"
           render={(props) => (
-            <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
+            <div
+              className="backgroundColor"
+              style={{ backgroundColor: "#FDFDFD" }}
+            >
               <Nav
                 from="messages"
                 displayCat={this.state.displayCat}
                 handleFilterChange={this.handleFilterChange}
                 handleLogout={this.handleLogout}
               />
-              <Messages {...props} msgRooms={this.state.msgRooms} userEmail={this.state.userEmail} />
+              <Messages
+                {...props}
+                msgRooms={this.state.msgRooms}
+                userEmail={this.state.userEmail}
+              />
             </div>
           )}
         />
@@ -389,9 +435,53 @@ class App extends Component {
           exact
           path="/landing"
           render={(props) => (
-            <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
-              <Nav from="landing" displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
+            <div
+              className="backgroundColor"
+              style={{ backgroundColor: "#FDFDFD" }}
+            >
+              <Nav
+                from="landing"
+                displayCat={this.state.displayCat}
+                handleFilterChange={this.handleFilterChange}
+              />
               <Landing />
+            </div>
+          )}
+        />
+
+        {/* Temporary route to manually get to main landing page */}
+        <Route
+          exact
+          path="/available"
+          render={(props) => (
+            <div
+              className="backgroundColor"
+              style={{ backgroundColor: "#FDFDFD" }}
+            >
+              <Nav
+                from="landing"
+                displayCat={this.state.displayCat}
+                handleFilterChange={this.handleFilterChange}
+              />
+              <Available />
+            </div>
+          )}
+        />
+
+        <Route
+          exact
+          path="/onlinechat"
+          render={(props) => (
+            <div
+              className="backgroundColor"
+              style={{ backgroundColor: "#FDFDFD" }}
+            >
+              <Nav
+                from="landing"
+                displayCat={this.state.displayCat}
+                handleFilterChange={this.handleFilterChange}
+              />
+              <OnlineChatRoom />
             </div>
           )}
         />
