@@ -3,7 +3,7 @@ import {Form, Button} from 'react-bootstrap';
 import {Route, Switch, NavLink, Link} from 'react-router-dom';
 import '../scss/style.css'
 import './OnlineChatRoom'
-import OnelineChatRoom from './OnlineChatRoom';
+import OnlineChatRoom from "./OnlineChatRoom";
 export default function Available() {
   const [formData, setformData] = useState({username : '', room: ''});
   // const [room, setRoom] = useState('');
@@ -21,7 +21,7 @@ export default function Available() {
           <Form.Label>Username</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Temporary Username"
+            placeholder="Choose your username"
             name="username"
             value={username}
             onChange={(e) => onChange(e)}
@@ -44,7 +44,7 @@ export default function Available() {
             <option value="Miscellaneous">Miscellaneous</option>
           </Form.Control>
         </Form.Group>
-        <Link to="onlinechat" props={username}> 
+        <Link to={`onlinechat/username:${username}-room:${room}`} props={username}> 
           <Button variant="outline-primary"> Submit </Button>
         </Link>
       </Form>

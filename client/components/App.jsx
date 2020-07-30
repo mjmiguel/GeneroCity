@@ -479,7 +479,9 @@ class App extends Component {
 
         <Route
           exact
-          path="/onlinechat"
+          // path="/exchangeClicked/:variable1,:variable2,:variable3"
+          // `onlinechat/username:${username}-room:${room}`
+          path="/onlinechat/username:username-room:room"
           render={(props) => (
             <div
               className="backgroundColor"
