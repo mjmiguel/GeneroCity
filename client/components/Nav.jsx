@@ -24,6 +24,11 @@ const Nav = (props) => {
           Messages
         </NavLink>
       </li>
+      <li className="nav-item">
+        <NavLink to="/available" className="nav-link">
+          Available Now
+        </NavLink>
+      </li>
     </ul>
   );
   const filterBox = (
