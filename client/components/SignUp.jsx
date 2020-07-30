@@ -14,7 +14,7 @@ class SignUp extends Component {
           <form>
             <div className="form-row">
               <div className="form-group col-md-6">
-                <label for="inputEmail4">First Name</label>
+                <label htmlFor="inputEmail4">First Name</label>
                 <input
                   type="text"
                   className="form-control"
@@ -25,7 +25,7 @@ class SignUp extends Component {
                 ></input>
               </div>
               <div className="form-group col-md-6">
-                <label for="inputEmail4">Last Name</label>
+                <label htmlFor="inputEmail4">Last Name</label>
                 <input
                   type="text"
                   className="form-control"
@@ -36,7 +36,7 @@ class SignUp extends Component {
                 ></input>
               </div>
               <div className="form-group col-md-6">
-                <label for="inputEmail4">Email</label>
+                <label htmlFor="inputEmail4">Email</label>
                 <input
                   type="email"
                   className="form-control"
@@ -47,7 +47,7 @@ class SignUp extends Component {
                 ></input>
               </div>
               <div className="form-group col-md-6">
-                <label for="inputPassword4">Password</label>
+                <label htmlFor="inputPassword4">Password</label>
                 <input
                   type="password"
                   className="form-control"
@@ -59,7 +59,7 @@ class SignUp extends Component {
               </div>
             </div>
             <div className="form-group">
-              <label for="inputAddress">Address</label>
+              <label htmlFor="inputAddress">Address</label>
               <input
                 type="text"
                 className="form-control"
@@ -70,7 +70,7 @@ class SignUp extends Component {
               ></input>
             </div>
             <div className="form-group">
-              <label for="inputAddress2">Address 2</label>
+              <label htmlFor="inputAddress2">Address 2</label>
               <input
                 type="text"
                 className="form-control"
@@ -82,7 +82,7 @@ class SignUp extends Component {
             </div>
             <div className="form-row">
               <div className="form-group col-md-6">
-                <label for="inputCity">City</label>
+                <label htmlFor="inputCity">City</label>
                 <input
                   type="text"
                   className="form-control"
@@ -92,7 +92,7 @@ class SignUp extends Component {
                 ></input>
               </div>
               <div className="form-group col-md-4">
-                <label for="inputState">State</label>
+                <label htmlFor="inputState">State</label>
                 <select
                   id="inputState"
                   name="userState"
@@ -104,7 +104,7 @@ class SignUp extends Component {
                 </select>
               </div>
               <div className="form-group col-md-2">
-                <label for="inputZip">Zip</label>
+                <label htmlFor="inputZip">Zip</label>
                 <input
                   type="text"
                   className="form-control"
@@ -117,7 +117,7 @@ class SignUp extends Component {
             <div className="form-group">
               <div className="form-check">
                 <input className="form-check-input" type="checkbox" id="gridCheck"></input>
-                <label className="form-check-label" for="gridCheck">
+                <label className="form-check-label" htmlFor="gridCheck">
                   Check me out
                 </label>
               </div>
