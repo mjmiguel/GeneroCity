@@ -83,9 +83,9 @@ UserController.verifyUser = async (req, res, next) => {
   const { userEmail, password } = req.body;
 
   const findUserQuery = `
-    SELECT *
-    FROM users u 
-    INNER JOIN address a ON u.address_id=a._id WHERE email = $1;`;
+  SELECT u._id, u.email, u."firstName", u."lastName", u.password, u.points, a.zipcode, a.street, a.city, a.state
+  FROM users u
+  INNER JOIN address a ON u.address_id=a._id WHERE email = $1;`;
   const values = [userEmail];
   try {
     const user = await db.query(findUserQuery, values);

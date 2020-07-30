@@ -102,16 +102,11 @@ class Profile extends Component {
               location={item.itemAddress}
               status={item.itemStatus}
             />
-            {/* <section className="cardItem">
-              <button
-                type="button"
-                className="btn btn-dark editItemBtn"
-                data-toggle="modal"
-                data-target="#editItemModal"
-              >
+            <section className="cardItem">
+              <button type="button" className="btn btn-dark editItemBtn" data-toggle="modal" data-target="#editItemModal">
                 Edit Item
               </button>
-            </section> */}
+            </section>
           </section>
         </>
       );
