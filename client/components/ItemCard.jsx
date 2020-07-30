@@ -24,8 +24,6 @@ class ItemCard extends Component {
     } = this.props.item;
     const { sendMessageButton } = this.props;
 
-    console.log('ItemCard this.props:  ', title);
-
     let claimed = status ? 'Yes' : 'No';
     let messageButton;
     if (this.props.inProfile) {
@@ -45,7 +43,7 @@ class ItemCard extends Component {
     }
 
     /*
-      THUMBNAIL IMAGE CONTAINER WORK
+      THUMBNAIL IMAGE WORK
     */
 
     const image1 = this.props.item.image1;
