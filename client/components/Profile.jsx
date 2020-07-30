@@ -19,6 +19,7 @@ class Profile extends Component {
     this.handleFileChange = this.handleFileChange.bind(this);
     this.getUserItems = this.getUserItems.bind(this);
     this.handleEditParamSet = this.handleEditParamSet.bind(this);
+    this.handleItemDelete = this.handleItemDelete.bind(this);
     //
   }
 
@@ -98,6 +99,21 @@ class Profile extends Component {
         this.props.history.push('/');
       });
   }
+  handleItemDelete(e) {
+    e.preventDefault();
+
+    const itemId = this.state._id;
+    fetch(`/item/${itemId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'Application/JSON',
+      },
+    })
+      .then((res) => res.json())
+      .then(() => this.props.history.push('/'))
+      .catch((err) => console.log(err));
+  }
+
   render() {
     const { userItems } = this.state;
     const cards = userItems.map((item, index) => {
@@ -165,6 +181,15 @@ class Profile extends Component {
                   onClick={(e) => this.handleSubmit(e)}
                 >
                   Save Changes
+                </button>
+                <button
+                  type="button"
+                  className="btn loginAndSignUpBtn"
+                  style={{ backgroundColor: '#f79797' }}
+                  data-dismiss="modal"
+                  onClick={this.handleItemDelete}
+                >
+                  Remove Item Listing
                 </button>
               </div>
             </div>
