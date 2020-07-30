@@ -53,14 +53,11 @@ class App extends Component {
     this.handleLogout = this.handleLogout.bind(this);
     this.checkSession = this.checkSession.bind(this);
   }
-
+  // check session auth
   componentDidMount() {
     this.checkSession();
-    if (this.state.isLoggedIn) {
-      // this.getAllItems();
-      console.log('logged in???')
-    }
   }
+
   // }
   handleUserChange(e) {
     this.setState({ user: { ...this.state.user, [e.target.name]: e.target.value } });
@@ -163,7 +160,7 @@ class App extends Component {
       .then((res) => res.json())
       .then((user) => {
         this.props.history.push('/');
-        this.setState({ isLoggedIn: true, user: user, user_id: user.id });
+        this.setState({ isLoggedIn: true, user: user, user_id: user._id });
       })
       .catch((err) => {
         console.log('/LOG-IN Post error: ', err);
@@ -204,7 +201,7 @@ class App extends Component {
       .then((user) => {
         // console.log('res', res);
         this.props.history.push('/');
-        this.setState({ isLoggedIn: true, user: user, user_id: user.id });
+        this.setState({ isLoggedIn: true, user: user, user_id: user._id });
       })
       .catch((err) => {
         console.log('AddItem Post error: ', err);
@@ -217,12 +214,11 @@ class App extends Component {
   checkSession() {
     fetch('/user/checksession')
     .then(res => res.json())
-    .then(res =>  {
-      // if (res.status === 200) {
-      console.log("res.email in checkSession", res.email)
-      // on successful status, update state email and pw
-      // this.setState({email: [res.email], isLoggedIn: true})
-      
+    .then(user =>  {
+      if (user.isLoggedIn) {
+        this.props.history.push('/');
+        this.setState({ isLoggedIn: true, user: user, user_id: user._id });
+      }
     })
     .catch(err => {
       console.log('/api/checksession GET error:', err);

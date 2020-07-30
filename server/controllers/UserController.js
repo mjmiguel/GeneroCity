@@ -10,8 +10,8 @@ UserController.getUserItems = (req, res, next) => {
   // console.log('user', user_id);
   console.log('req params in get user items ', user_id )
   const query = `SELECT u._id, u.email, i.*
-  FROM public.users u
-  RIGHT OUTER JOIN public.items i ON u._id=i.user_id
+  FROM users u
+  RIGHT OUTER JOIN items i ON u._id=i.user_id
   WHERE u._id=${user_id}`;
 
   db.query(query, (err, data) => {
@@ -83,8 +83,8 @@ UserController.verifyUser = async (req, res, next) => {
   const { userEmail, password } = req.body;
 
   const findUserQuery = `
-    SELECT *
-    FROM users u 
+    SELECT u._id, u.email, u."firstName", u."lastName", u.password, u.points, a.zipcode, a.street, a.city, a.state
+    FROM users u
     INNER JOIN address a ON u.address_id=a._id WHERE email = $1;`;
   const values = [userEmail];
   try {
@@ -93,7 +93,7 @@ UserController.verifyUser = async (req, res, next) => {
     // query database for user and store in res.locals (without hashed password)
     let verifiedUser = await db.query(findUserQuery, values);
     res.locals.verifiedUser = Object.keys(verifiedUser.rows[0]).reduce((acc, curr) => {
-      if (curr !== 'password') acc[curr] = verifiedUser.rows[0][curr];
+      if (curr === 'password') acc[curr] = verifiedUser.rows[0][curr];
       return acc;
     }, {});
 

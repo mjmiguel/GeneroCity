@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const itemRouter = require('./routes/itemsRouter.js');
 const userRouter = require('./routes/userRouter.js');
-const filterRouter = require('./routes/filterRouter.js');
+const cookieParser = require('cookie-parser');
 const http = require('http');
 const socket = require('socket.io');
 // require dotenv to hide server uri
@@ -18,6 +18,7 @@ const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 // Handle Parsing of Request Body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 io.on('connection', (socket) => {
   console.log('new socket connection!', socket.id);
@@ -70,11 +71,7 @@ app.get('/login', (req, res) => res.sendFile(path.resolve(__dirname, '../index.h
 app.get('/signup', (req, res) => res.sendFile(path.resolve(__dirname, '../index.html')));
 app.get('/chat', (req, res) => res.sendFile(path.resolve(__dirname, '../index.html')));
 app.get('/messages', (req, res) => res.sendFile(path.resolve(__dirname, '../index.html')));
-app.get('/item/category/Appliances', (req, res) => res.sendFile(path.resolve(__dirname, '../index.html')));
-app.get('/item/category/Kitchen', (req, res) => res.sendFile(path.resolve(__dirname, '../index.html')));
-app.get('/item/category/Sports', (req, res) => res.sendFile(path.resolve(__dirname, '../index.html')));
-app.get('/item/category/Clothing', (req, res) => res.sendFile(path.resolve(__dirname, '../index.html')));
-// app.get('/logIn', (req, res) => res.sendFile(path.resolve(__dirname, '../index.html')));
+
 app.get('/landing', (req, res) => res.sendFile(path.resolve(__dirname, '../index.html')));
 
 // Catch-All to handle unknown routes

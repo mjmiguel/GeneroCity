@@ -35,14 +35,16 @@ router.post(
   // check for session on componentDidMount
   router.get('/checksession', SessionController.isLoggedIn, (req, res, next) => {
     // 200 response will provide client with user email
-    return res.status(200).json({ email: res.locals.email });
+    console.log('session found ');
+    if (!res.locals.verifiedUser) return res.status(200).json({ isLoggedIn: false});
+    return res.status(200).json({ ...res.locals.verifiedUser, isLoggedIn: true });
   });
   
   // GET all items that user has posted
-  router.get('/:user_id', UserController.getUserItems, (req, res, next) => {
-    // console.log('res.locals.items', res.locals.items);
-    res.status(200).json({ allItems: res.locals.items });
-  });
+  // router.get('/:user_id', UserController.getUserItems, (req, res, next) => {
+  //   // console.log('res.locals.items', res.locals.items);
+  //   res.status(200).json({ allItems: res.locals.items });
+  // });
   // hanlde logout requests
   // router.post('/logout', SessionController.endSession, (req, res, next) => {
     //   return res.status(200).json({ msg: 'ended session' });
