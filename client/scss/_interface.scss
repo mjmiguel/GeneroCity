@@ -19,12 +19,22 @@ h6 {
 .itemsContainer {
   padding: 3rem;
   display: grid;
+  justify-self: center;
   grid-template-columns: 20fr 20fr 20fr 20fr 20fr; /*can add a media query for smaller screens/responsivity*/
-  /* min-width: 950px; */
+  max-width: 1200px;
 }
 /* card container: which includes everything within a card */
 .card {
   margin: 10px;
+  width: 250px;
+}
+
+/* thumbnail container: includes thumbnails below main product image */
+.thumbnailContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center; // center images within card
+  //grid-template-columns: 33fr 33fr 33fr;
 }
 
 /* invidivual section within a card */
@@ -147,8 +157,9 @@ select {
     grid-template-columns: 25fr 25fr 25fr 25fr; /*can add a media query for smaller screens/responsivity*/
   }
 }
-@media (max-width: 1150px) {
+@media (max-width: 950px) {
   .itemsContainer {
     grid-template-columns: 33fr 33fr 33fr; /*can add a media query for smaller screens/responsivity*/
+    justify-content: space-around;
   }
 }
