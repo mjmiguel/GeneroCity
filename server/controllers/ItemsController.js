@@ -55,15 +55,13 @@ ItemsController.editUserItem = (req, res, next) => {
     image_4: image_4,
   };
 
-  let queryStart = `UPDATE public.items SET `;
-  const queryEnd = `WHERE _id=${item_id}`;
+  let query = ``;
 
   for (let val in queryObj) {
     if (queryObj[val]) {
-      queryStart += `${val}='${queryObj[val]}' `;
+      query += `UPDATE public.items SET ${val}='${queryObj[val]}' WHERE _id=${item_id}; `;
     }
   }
-  const query = queryStart + queryEnd;
 
   db.query(query, (err, data) => {
     if (err) {
