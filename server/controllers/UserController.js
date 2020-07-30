@@ -93,7 +93,7 @@ UserController.verifyUser = async (req, res, next) => {
     // query database for user and store in res.locals (without hashed password)
     let verifiedUser = await db.query(findUserQuery, values);
     res.locals.verifiedUser = Object.keys(verifiedUser.rows[0]).reduce((acc, curr) => {
-      if (curr === 'password') acc[curr] = verifiedUser.rows[0][curr];
+      if (curr !== 'password') acc[curr] = verifiedUser.rows[0][curr];
       return acc;
     }, {});
 
