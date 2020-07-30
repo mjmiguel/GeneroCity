@@ -15,18 +15,44 @@ h6 {
   margin-top: 5px;
   margin-right: 10px;
 }
+
+/* container containing items grid container */
+.containerContainer {
+  display: flex;
+  justify-content: center;
+}
+
 /* items grid container */
+// .itemsContainer {
+//   padding: 3rem;
+//   display: grid;
+//   align-self: flex-end;
+//   justify-self: center;
+//   grid-template-columns: 20fr 20fr 20fr 20fr 20fr; /*can add a media query for smaller screens/responsivity*/
+//   max-width: 1200px;
+// }
+
 .itemsContainer {
-  padding: 3rem;
-  display: grid;
-  justify-self: center;
-  grid-template-columns: 20fr 20fr 20fr 20fr 20fr; /*can add a media query for smaller screens/responsivity*/
-  max-width: 1200px;
+  display: flex;
+  flex-wrap: wrap;
 }
 /* card container: which includes everything within a card */
 .card {
   margin: 10px;
   width: 250px;
+}
+
+.cardTitle {
+  display: flex;
+  justify-content: center; // center title on card
+}
+
+.cardBody {
+  height: 120px; //kind of a cheat. Trying to be aligned to the bottom of the div
+  padding: 10px; //padding around the card body (to get off border)
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 /* thumbnail container: includes thumbnails below main product image */

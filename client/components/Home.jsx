@@ -86,7 +86,9 @@ class Home extends Component {
             </div>
           </div>
         </div>
-        <section className="itemsContainer">{cards}</section>
+        <div className="containerContainer">
+          <section className="itemsContainer">{cards}</section>
+        </div>
       </>
     );
   }

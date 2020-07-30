@@ -88,10 +88,12 @@ class ItemCard extends Component {
           {/*This brings in the 3 preview images*/}
           <Carousel>{previewImagesArray}</Carousel>
         </section>
-        <div class="card-body">
-          <h5 class="card-title">{title}</h5>
-          <p class="card-text">
-            {/* Location: Enter Location Here <br /> */}
+        <div className="cardTitle">
+          <h5>{title}</h5>
+        </div>
+        <div className="cardBody">
+          <p class="cardy-Body">
+            {/* (Stretch) Location: Enter Location Here <br /> */}
             <br />
             {description} <br />
             Category: {category}
