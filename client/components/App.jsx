@@ -51,14 +51,13 @@ class App extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFileChange = this.handleFileChange.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
-    // this.checkSession = this.checkSession.bind(this);
+    this.checkSession = this.checkSession.bind(this);
   }
-  // componentDidMount() {
-  //   if (this.state.isLoggedIn) {
-  //     this.getAllItems();
-  //   }
+  // check session auth
+  componentDidMount() {
+    this.checkSession();
+  }
 
-  //   // this.checkSession(); ---- session auth incomplete
   // }
   handleUserChange(e) {
     this.setState({ user: { ...this.state.user, [e.target.name]: e.target.value } });
@@ -212,20 +211,19 @@ class App extends Component {
   }
 
   // ---------------------check session - called in componentDidMount-------------------------
-  // checkSession() {
-  //   fetch('/api/checksession')
-  //   .then(res => res.json())
-  //   .then(res =>  {
-  //     // if (res.status === 200) {
-  //     console.log("res.email in checkSession", res.email)
-  //     // on successful status, update state email and pw
-  //     this.setState({email: [res.email], isLoggedIn: true})
-
-  //   })
-  //   .catch(err => {
-  //     console.log('/api/checksession GET error:', err);
-  //   })
-  // }
+  checkSession() {
+    fetch('/user/checksession')
+    .then(res => res.json())
+    .then(user =>  {
+      if (user.isLoggedIn) {
+        this.props.history.push('/');
+        this.setState({ isLoggedIn: true, user: user, user_id: user._id });
+      }
+    })
+    .catch(err => {
+      console.log('/api/checksession GET error:', err);
+    })
+  }
 
   /*--- GET Request for All items--- */
   getAllItems() {

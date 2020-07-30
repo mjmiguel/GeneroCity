@@ -26,19 +26,26 @@ SessionController.startSession = async (req, res, next) => {
  */
 SessionController.isLoggedIn = async (req, res, next) => {
   // query database for cookie ssid *SSID is also the mongoose ID
+  console.log('req.cookies in isLogged in', req.cookies);
+
   const { ssid } = req.cookies;
-  console.log('req.cookies', req.cookies);
+
   const sessionJoinQuery = `
-  SELECT u.*, s.*
-  FROM public.users u
-  RIGHT OUTER JOIN public.sessions s
-  ON u._id = s.user_id
-  WHERE (s.cookie = '${ssid}')`;
+    SELECT u.*, s.*, a.*
+    FROM users u
+    RIGHT OUTER JOIN sessions s
+    ON u._id = s.user_id
+    INNER JOIN address a ON u.address_id=a._id
+    WHERE (s.cookie = $1)`;
+
+  const values = [ssid];
 
   try {
-    const sessionJoin = await db.query(sessionJoinQuery);
-    console.log('sessionjoin', sessionJoin.rows);
-    res.locals.email = sessionJoin.rows[0].email;
+    const sessionJoin = await db.query(sessionJoinQuery, values);
+    if (sessionJoin.rows.length === 0) return next({ log: 'session not found, pls login'});
+
+    const { _id, email, firstName,lastName, points,	address_id,	zipcode, street, city, state } = sessionJoin.rows[0];
+    res.locals.verifiedUser = { _id, email, firstName,lastName, points,	address_id,	zipcode, street, city, state };
     return next();
   } catch (e) {
     return next(e);
