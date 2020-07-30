@@ -29,6 +29,19 @@ h6 {
   width: 250px;
 }
 
+.cardTitle {
+  display: flex;
+  justify-content: center; // center title on card
+}
+
+.cardBody {
+  height: 120px; //kind of a cheat. Trying to adhere to be aligned to the bottom of the div
+  //padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
 /* thumbnail container: includes thumbnails below main product image */
 .thumbnailContainer {
   display: flex;
