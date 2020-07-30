@@ -41,7 +41,7 @@ class Profile extends Component {
 
   getUserItems() {
     const url = '/user/';
-    const id = this.props.userId;
+    const id = this.props.userId.toString();
     fetch(path.resolve(url, id))
       .then((res) => res.json())
       .then((res) => {
@@ -157,11 +157,11 @@ class Profile extends Component {
         </div>
 
         <section className="userProfile">
-          <h4>Welcome to Your Profile, {this.props.userFirstName}!</h4>
+          <h4>Welcome to Your Profile, {this.props.user.firstName}!</h4>
           <p>
-            Name: {this.props.userFirstName} {this.props.userLastName}
+            Name: {this.props.user.firstName} {this.props.user.lastName}
             <br />
-            User Email: {this.props.userEmail}
+            User Email: {this.props.user.email}
           </p>
           <h5>Your listed items:</h5>
         </section>

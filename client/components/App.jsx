@@ -24,27 +24,25 @@ class App extends Component {
       allItems: [], // (each item is an object)
       displayedItems: [],
       displayCat: 'All',
-      userEmail: 'Dave',
-      userPoints: '',
-      userFirstName: 'Dave',
-      userLastName: "O'Sullivan",
-      password: '',
-      userStreet: '',
-      userStreet2: '',
-      userCity: '',
-      userState: '',
-      userZip: '',
+      user: {},
+      // userEmail: 'Dave',
+      // userPoints: '',
+      // userFirstName: 'Dave',
+      // userLastName: "O'Sullivan",
+      // password: '',
+      // userStreet: '',
+      // userStreet2: '',
+      // userCity: '',
+      // userState: '',
+      // userZip: '',
       msgRooms: ['Bridget', 'Scott'],
       /* State for a single item */
-      itemTitle: '',
-      itemDescription: '',
-      itemCategory: '',
-      itemImage: '',
-      claimed: false,
+      newItem: { itemTitle: '', itemDescription: '', itemCategory: '', itemImage: '', claimed: false },
       user_id: '2',
       redirect: null,
     };
-    this.handleChange = this.handleChange.bind(this);
+    this.handleUserChange = this.handleUserChange.bind(this);
+    this.handleItemChange = this.handleItemChange.bind(this);
     this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
     this.handleSignUpSubmit = this.handleSignUpSubmit.bind(this);
     this.getAllItems = this.getAllItems.bind(this);
@@ -53,17 +51,21 @@ class App extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFileChange = this.handleFileChange.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
-    // this.checkSession = this.checkSession.bind(this);
+    this.checkSession = this.checkSession.bind(this);
   }
-  // componentDidMount() {
-  //   if (this.state.isLoggedIn) {
-  //     this.getAllItems();
-  //   }
+  // check session auth
+  componentDidMount() {
+    this.checkSession();
+  }
 
-  //   // this.checkSession(); ---- session auth incomplete
   // }
-  handleChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  handleUserChange(e) {
+    this.setState({ user: { ...this.state.user, [e.target.name]: e.target.value } });
+    // console.log(this.state);
+  }
+
+  handleItemChange(e) {
+    this.setState({ newItem: { ...this.state.newItem, [e.target.name]: e.target.value } });
   }
   /*--------- Send a message to another user from ItemCard button ------*/
   // somewhere (maybe here) we need a POST request to update both users' 'msgRooms' array in DB
@@ -77,11 +79,10 @@ class App extends Component {
   /*----------- handle file change (image input) (AddItem)-----------------*/
 
   handleFileChange(e) {
-    console.log('input Image:', e.target.value);
+    // console.log('input Image:', e.target.value);
     this.setState({
-      itemImage:
-        e.target
-          .value /**URL.createObjectURL(e.target.files[0]) to display image before submit (for file uploads, not URLs) */,
+      newItem: { ...this.state.newItem, itemImage: e.target.value },
+      /**URL.createObjectURL(e.target.files[0]) to display image before submit (for file uploads, not URLs) */
     });
   }
 
@@ -111,7 +112,8 @@ class App extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const { itemTitle, itemDescription, itemCategory, itemImage, claimed, user_id } = this.state;
+    const { itemTitle, itemDescription, itemCategory, itemImage, claimed } = this.state.newItem;
+    const user_id = this.state.user_id;
     const body = {
       title: itemTitle,
       description: itemDescription,
@@ -143,8 +145,10 @@ class App extends Component {
   handleLoginSubmit(e) {
     e.preventDefault();
 
-    const { userEmail, password } = this.state;
+    const { userEmail, password } = this.state.user;
     const body = { userEmail, password };
+
+    console.log(body);
 
     fetch('/user/login', {
       method: 'POST',
@@ -153,11 +157,10 @@ class App extends Component {
       },
       body: JSON.stringify(body),
     })
-      .then((res) => {
-        console.log('res in /log-in', res);
-        res.json();
+      .then((res) => res.json())
+      .then((user) => {
         this.props.history.push('/');
-        this.setState({ isLoggedIn: true, password: '' });
+        this.setState({ isLoggedIn: true, user: user, user_id: user._id });
       })
       .catch((err) => {
         console.log('/LOG-IN Post error: ', err);
@@ -166,16 +169,16 @@ class App extends Component {
   }
 
   handleLogout() {
-    this.setState({ isLoggedIn: false });
+    this.setState({ isLoggedIn: false, user: {} });
   }
 
   /*----------------POST request To SIGNUP-------------------*/
   handleSignUpSubmit(e) {
     e.preventDefault();
 
-    const { userFirstName, userLastName, password, userEmail, userStreet, userState, userCity, userZip } = this.state;
+    const { userFirstName, userLastName, password, userEmail, userStreet, userState, userCity, userZip } = this.state.user;
     const body = {
-      email: userEmail,
+      userEmail,
       password,
       firstName: userFirstName,
       lastName: userLastName,
@@ -184,8 +187,6 @@ class App extends Component {
       city: userCity,
       state: userState,
     };
-
-    console.log('submit signUp req body:', body);
 
     fetch('/user/signup', {
       method: 'POST',
@@ -197,10 +198,10 @@ class App extends Component {
       .then((res) => res.json())
       // TODO: setState with isLoggedIn, clear pw
       // return to home page
-      .then((res) => {
+      .then((user) => {
         // console.log('res', res);
         this.props.history.push('/');
-        // this.setState({})
+        this.setState({ isLoggedIn: true, user: user, user_id: user._id });
       })
       .catch((err) => {
         console.log('AddItem Post error: ', err);
@@ -210,20 +211,19 @@ class App extends Component {
   }
 
   // ---------------------check session - called in componentDidMount-------------------------
-  // checkSession() {
-  //   fetch('/api/checksession')
-  //   .then(res => res.json())
-  //   .then(res =>  {
-  //     // if (res.status === 200) {
-  //     console.log("res.email in checkSession", res.email)
-  //     // on successful status, update state email and pw
-  //     this.setState({email: [res.email], isLoggedIn: true})
-
-  //   })
-  //   .catch(err => {
-  //     console.log('/api/checksession GET error:', err);
-  //   })
-  // }
+  checkSession() {
+    fetch('/user/checksession')
+    .then(res => res.json())
+    .then(user =>  {
+      if (user.isLoggedIn) {
+        this.props.history.push('/');
+        this.setState({ isLoggedIn: true, user: user, user_id: user._id });
+      }
+    })
+    .catch(err => {
+      console.log('/api/checksession GET error:', err);
+    })
+  }
 
   /*--- GET Request for All items--- */
   getAllItems() {
@@ -242,7 +242,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.isLoggedIn);
     return (
       <Switch>
         <Route
@@ -261,13 +260,13 @@ class App extends Component {
                   {...props}
                   displayedItems={this.state.displayedItems}
                   userItems={this.state.userItems}
-                  userEmail={this.state.userEmail}
-                  userAddress={this.state.userAddress}
+                  userEmail={this.state.user.email}
+                  userAddress={this.state.user.firstName}
                   userId={this.state.user_id}
                   sendMessage={this.handleSendMessage}
                   handleSubmit={this.handleSubmit}
                   handleFileChange={this.handleFileChange}
-                  handleChange={this.handleChange}
+                  handleItemChange={this.handleItemChange}
                   handleFilterChange={this.handleFilterChange}
                   getAllItems={this.getAllItems}
                 />
@@ -306,7 +305,7 @@ class App extends Component {
               <Login
                 {...props} // add props here
                 handleLoginSubmit={this.handleLoginSubmit}
-                handleChange={this.handleChange}
+                handleUserChange={this.handleUserChange}
               />
             </div>
           )}
@@ -318,7 +317,7 @@ class App extends Component {
             <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
               <Nav from="signup" displayCat={this.state.displayCat} handleFilterChange={this.handleFilterChange} />
               <SignUp
-                handleChange={this.handleChange}
+                handleUserChange={this.handleUserChange}
                 handleSignUpSubmit={this.handleSignUpSubmit}
                 {...props} // add props here
               />
@@ -336,14 +335,7 @@ class App extends Component {
                 handleFilterChange={this.handleFilterChange}
                 handleLogout={this.handleLogout}
               />
-              <Profile
-                {...props}
-                allItems={this.state.allItems}
-                userId={this.state.user_id}
-                userEmail={this.state.userEmail}
-                userFirstName={this.state.userFirstName}
-                userLastName={this.state.userLastName}
-              />
+              <Profile {...props} allItems={this.state.allItems} userId={this.state.user_id} user={this.state.user} />
             </div>
           )}
         />

@@ -3,11 +3,12 @@ const db = require('../models/Models');
 const ItemsController = {};
 
 ItemsController.getAllItems = (req, res, next) => {
-  const query = ' SELECT * FROM public.items';
+  const query = 'SELECT * FROM public.items;';
 
   db.query(query, (err, data) => {
     if (err) {
       console.log('ERROR: ', err);
+      return next(err);
     }
     // if successful, query will return data.rows
     const { rows } = data;
@@ -34,7 +35,8 @@ ItemsController.postItem = (req, res, next) => {
     // const { rows } = data;
     // console.log('rows', rows);
     // res.locals.items = rows;
-    console.log(`${title} successfully posted to database.`);
+
+    console.log(`${data} successfully posted to database.`);
     return next();
   });
 };
