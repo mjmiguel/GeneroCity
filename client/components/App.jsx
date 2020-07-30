@@ -452,7 +452,6 @@ class App extends Component {
 
         {/* Temporary route to manually get to main landing page */}
         <Route
-          exact
           path="/available"
           render={(props) => (
             <div

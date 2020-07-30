@@ -15,7 +15,7 @@ export default function OnelineChatRoom(props) {
 
       // Get username and room from URL
       const socket = io(ENDPOINT);
-
+      
       // Join chatroom
       socket.emit('joinRoom', { username, room });
 
@@ -77,9 +77,9 @@ export default function OnelineChatRoom(props) {
     <div class="chat-container">
       <header class="chat-header">
         <h1>
-          <i class="fas fa-smile"></i> Generosity Chat Room
+          <i class="fas fa-smile"></i> Generosify
         </h1>
-        <a href="index.html" class="btn">
+        <a href="" class="btn">
           Leave Room
         </a>
       </header>

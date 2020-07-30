@@ -3,7 +3,7 @@ import {Form, Button} from 'react-bootstrap';
 import {Route, Switch, NavLink, Link} from 'react-router-dom';
 import '../scss/style.css'
 import './OnlineChatRoom'
-import OnlineChatRoom from "./OnlineChatRoom";
+
 export default function Available() {
   const [formData, setformData] = useState({username : '', room: ''});
   // const [room, setRoom] = useState('');
@@ -13,12 +13,37 @@ export default function Available() {
   } 
 
   console.log(formData);
-
+// class="w-50 p-3 d-flex justify-content-center"
+  //  <div className="loginWrapper container loginAndSignUp">
+  //    <div className="row" style={{ height: "15vh" }}></div>
+  //    <div className="col" style={{ maxWidth: "90%" }}>
+      //  <h3 style={{ textAlign: "center", margin: "30px", color: "$warmGray" }}>
+      //    feeling generous?
+      //  </h3>
+  //      <NavLink to="/signup" className="btn btn-primary loginAndSignUpBtn">
+  //        signup
+  //      </NavLink>
+  //      <NavLink to="/login" className="btn btn-primary loginAndSignUpBtn">
+  //        login
+  //      </NavLink>
+  //    </div>
+  //    <div className="row" style={{ height: "20vh" }}></div>
+  //  </div>;
   return (
-    <div>
-      <Form>
+    <div class="d-flex mt-20 justify-content-center">
+      <Form >
         <Form.Group controlId="exampleForm.ControlInput1">
-          <Form.Label>Username</Form.Label>
+          <Form.Label>
+            <h3
+              style={{
+                textAlign: "center",
+                margin: "30px",
+                color: "$warmGray",
+              }}
+            >
+              Username
+            </h3>
+          </Form.Label>
           <Form.Control
             type="text"
             placeholder="Choose your username"
@@ -28,7 +53,17 @@ export default function Available() {
           />
         </Form.Group>
         <Form.Group controlId="exampleForm.ControlSelect1">
-          <Form.Label> Choose chatroom! </Form.Label>
+          <Form.Label>
+            <h3
+              style={{
+                textAlign: "center",
+                margin: "30px",
+                color: "$warmGray",
+              }}
+            >
+              Choose chatroom!
+            </h3>
+          </Form.Label>
           <Form.Control
             as="select"
             name="room"
@@ -44,8 +79,11 @@ export default function Available() {
             <option value="Miscellaneous">Miscellaneous</option>
           </Form.Control>
         </Form.Group>
-        <Link to={`onlinechat/username:${username}-room:${room}`} props={username}> 
-          <Button variant="outline-primary"> Submit </Button>
+        <Link
+          to={`onlinechat/username:${username}-room:${room}`}
+          props={username}
+        >
+          <Button variant="outline-primary"> Go to your room </Button>
         </Link>
       </Form>
     </div>

@@ -99,6 +99,10 @@ app.get('/login', (req, res) => res.sendFile(path.resolve(__dirname, '../index.h
 app.get('/signup', (req, res) => res.sendFile(path.resolve(__dirname, '../index.html')));
 app.get('/chat', (req, res) => res.sendFile(path.resolve(__dirname, '../index.html')));
 app.get('/messages', (req, res) => res.sendFile(path.resolve(__dirname, '../index.html')));
+app.get('/available', (req, res) => res.sendFile(path.resolve(__dirname, '../index.html')));
+app.get("/onlinechat", (req, res) =>
+  res.sendFile(path.resolve(__dirname, "../index.html"))
+);
 
 app.get('/landing', (req, res) => res.sendFile(path.resolve(__dirname, '../index.html')));
 

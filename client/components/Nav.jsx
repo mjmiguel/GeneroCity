@@ -26,7 +26,7 @@ const Nav = (props) => {
       </li>
       <li className="nav-item">
         <NavLink to="/available" className="nav-link">
-          Available Now
+          Online Chat
         </NavLink>
       </li>
     </ul>
