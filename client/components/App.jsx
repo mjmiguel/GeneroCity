@@ -148,7 +148,7 @@ class App extends Component {
     const { userEmail, password } = this.state.user;
     const body = { userEmail, password };
 
-    console.log(body);
+
 
     fetch('/user/login', {
       method: 'POST',

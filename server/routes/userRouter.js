@@ -47,7 +47,7 @@ router.post(
 
   // hanlde logout requests
   router.delete('/logout', SessionController.endSession, (req, res, next) => {
-      return res.status(200).json({ msg: 'ended session' });
+      return res.clearCookie('ssid').status(200).json({ msg: 'ended session' });
 });
 
 module.exports = router;
