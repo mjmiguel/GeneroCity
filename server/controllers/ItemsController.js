@@ -3,7 +3,7 @@ const db = require('../models/Models');
 const ItemsController = {};
 
 ItemsController.getAllItems = (req, res, next) => {
-  const query = ' SELECT * FROM public.items';
+  const query = 'SELECT * FROM public.items;';
 
   db.query(query, (err, data) => {
     if (err) {
