@@ -20,12 +20,12 @@ ItemsController.getAllItems = (req, res, next) => {
 };
 
 ItemsController.postItem = (req, res, next) => {
-  const { title, description, image, category, status, user_id } = req.body;
+  const { title, description, image, category, status, user_id, image_2, image_3, image_4 } = req.body;
 
   const query = {
     text:
-      'INSERT INTO public.items(title, description, image, category, status, user_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
-    values: [title, description, image, category, status, user_id],
+      'INSERT INTO public.items(title, description, image, category, status, user_id, image_2, image_3, image_4) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
+    values: [title, description, image, category, status, user_id, image_2, image_3, image_4],
   };
 
   db.query(query, (err, data) => {
