@@ -148,8 +148,6 @@ class App extends Component {
     const { userEmail, password } = this.state.user;
     const body = { userEmail, password };
 
-
-
     fetch('/user/login', {
       method: 'POST',
       headers: {
@@ -172,7 +170,8 @@ class App extends Component {
     fetch('/user/logout', {
       method: 'DELETE',
     })
-      .then((res) => {res.json()
+      .then((res) => {
+        res.json();
         this.setState({ isLoggedIn: false, user: '', user_id: '' });
         this.props.history.push('/');
       })
@@ -222,16 +221,16 @@ class App extends Component {
   // ---------------------check session - called in componentDidMount-------------------------
   checkSession() {
     fetch('/user/checksession')
-    .then(res => res.json())
-    .then(user =>  {
-      if (user.isLoggedIn) {
-        this.props.history.push('/');
-        this.setState({ isLoggedIn: true, user: user, user_id: user._id });
-      }
-    })
-    .catch(err => {
-      console.log('/api/checksession GET error:', err);
-    })
+      .then((res) => res.json())
+      .then((user) => {
+        if (user.isLoggedIn) {
+          this.props.history.push('/');
+          this.setState({ isLoggedIn: true, user: user, user_id: user._id });
+        }
+      })
+      .catch((err) => {
+        console.log('/api/checksession GET error:', err);
+      });
   }
 
   /*--- GET Request for All items--- */
