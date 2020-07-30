@@ -31,12 +31,12 @@ SessionController.isLoggedIn = async (req, res, next) => {
   const { ssid } = req.cookies;
 
   const sessionJoinQuery = `
-    SELECT u.*, s.*, a.*
-    FROM users u
-    RIGHT OUTER JOIN sessions s
-    ON u._id = s.user_id
-    INNER JOIN address a ON u.address_id=a._id
-    WHERE (s.cookie = $1)`;
+  SELECT u._id, u.email, u."firstName", u."lastName", u.password, u.points, a.zipcode, a.street, a.city, a.state
+  FROM users u
+  RIGHT OUTER JOIN sessions s
+  ON u._id = s.user_id
+  INNER JOIN address a ON u.address_id=a._id
+  WHERE (s.cookie = $1)`;
 
   const values = [ssid];
 
