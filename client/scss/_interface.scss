@@ -29,15 +29,12 @@ h6 {
   width: 250px;
 }
 
-.imagePreviewContainer {
+/* thumbnail container: includes thumbnails below main product image */
+.thumbnailContainer {
   display: flex;
   flex-direction: row;
-  grid-template-columns: 30fr 30fr 30fr;
-  max-width: 150px;
-}
-
-.imagePreview {
-  flex-basis: 30%;
+  justify-content: center; // center images within card
+  //grid-template-columns: 33fr 33fr 33fr;
 }
 
 /* invidivual section within a card */

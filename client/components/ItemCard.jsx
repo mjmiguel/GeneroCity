@@ -1,6 +1,10 @@
 /* eslint-disable no-useless-constructor */
 import React, { Component } from 'react';
 import '../scss/app.scss';
+import ItemCardThumbnail from './ItemCardThumbnail.jsx';
+// Used for image carousel
+import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class ItemCard extends Component {
@@ -20,7 +24,7 @@ class ItemCard extends Component {
     } = this.props.item;
     const { sendMessageButton } = this.props;
 
-    console.log('This is this.props:  ', this.props.item.image);
+    console.log('ItemCard this.props:  ', title);
 
     let claimed = status ? 'Yes' : 'No';
     let messageButton;
@@ -41,7 +45,7 @@ class ItemCard extends Component {
     }
 
     /*
-      PREVIEW IMAGE CONTAINER WORK
+      THUMBNAIL IMAGE CONTAINER WORK
     */
 
     const image1 = this.props.item.image1;
@@ -55,29 +59,11 @@ class ItemCard extends Component {
           : 'https://images.pexels.com/photos/291762/pexels-photo-291762.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260'
       )
       .map((thumbImage, index) => {
-        return (
-          <div className="imagePreview">
-            <div key={index} item={thumbImage} />
-          </div>
-        );
+        // Return ItemCardThumbnail (ItemCardThumbnail.jsx) div
+        // Assigning thumbURL to thumbImage gives ItemCardThumbnail.jsx this property as this.props.thumbURL
+        return <ItemCardThumbnail key={index} thumbURL={thumbImage} />;
       });
 
-    // render() {
-    //   const { displayedItems } = this.props; // provides this.state.allItems as an array
-    //   console.log('displayedItems is here:   ', this.props);
-    //   // use map method to transform allItems into cards
-    //   const cards = displayedItems.map((item, index) => {
-    //     return (
-    //       <div className="card">
-    //         <ItemCard
-    //           key={index}
-    //           item={item}
-    //           sendMessageButton={this.props.sendMessage}
-    //           inProfile={false}
-    //         />
-    //       </div>
-    //     );
-    //   });
     /* TO DO: 
       backend: add location
       frontend: add description & image
@@ -96,12 +82,13 @@ class ItemCard extends Component {
             class="card-img-top"
             src={image}
             alt="Product Image"
-            height="200"
+            height="250"
           />
         </div>
-        <section className="imagePreviewContainer">
+        <section className="thumbnailContainer">
           {/* Image preview container syntax goes here */}
-          {previewImagesArray}
+          {/*This brings in the 3 preview images*/}
+          <Carousel>{previewImagesArray}</Carousel>
         </section>
         <div class="card-body">
           <h5 class="card-title">{title}</h5>

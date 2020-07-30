@@ -17,7 +17,7 @@ class Home extends Component {
   }
 
   render() {
-    const { displayedItems } = this.props; // provides this.state.allItems as an array
+    const { displayedItems } = this.props;
     console.log('displayedItems is here:   ', this.props);
     // use map method to transform allItems into cards
     const cards = displayedItems.map((item, index) => {
@@ -32,7 +32,7 @@ class Home extends Component {
         </div>
       );
     });
-
+    console.log('This is cards in HOME:  ', cards);
     return (
       <>
         <section className="innerNav">
