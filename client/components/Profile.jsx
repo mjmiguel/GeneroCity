@@ -100,6 +100,8 @@ class Profile extends Component {
       });
   }
   handleItemDelete(e) {
+    e.preventDefault();
+
     const itemId = this.state._id;
     fetch(`/item/${itemId}`, {
       method: 'DELETE',
@@ -108,7 +110,7 @@ class Profile extends Component {
       },
     })
       .then((res) => res.json())
-      .then(() => console.log('Item deleted'))
+      .then(() => this.props.history.push('/'))
       .catch((err) => console.log(err));
   }
 
@@ -182,7 +184,8 @@ class Profile extends Component {
                 </button>
                 <button
                   type="button"
-                  className="btn btn-secondary loginAndSignUpBtn"
+                  className="btn loginAndSignUpBtn"
+                  style={{ backgroundColor: '#f79797' }}
                   data-dismiss="modal"
                   onClick={this.handleItemDelete}
                 >
