@@ -1,13 +1,22 @@
-import React, { Component } from 'react';
-import '../scss/app.scss';
-import { Route, Switch, NavLink } from 'react-router-dom';
-import { withRouter } from 'react-router';
+import React, { Component, useState } from "react";
+import "../scss/app.scss";
+import { Route, Switch, NavLink } from "react-router-dom";
+import { withRouter } from "react-router";
 
 const Nav = (props) => {
+  const [text, setText] = useState(' ');
+
+  const onChange = (e) => {
+    setText(e.target.value)
+    console.log(text);
+    console.log(props);
+    props.handleSearchbar(e);
+  }
+
   const logoBtn = (
     <NavLink to="/" className="nav-brand">
-      <span className="navbar-brand" style={{ letterSpacing: '2px' }}>
-        genero<span style={{ color: 'gray', letterSpacing: '3px' }}>city</span>
+      <span className="navbar-brand" style={{ letterSpacing: "2px" }}>
+        genero<span style={{ color: "gray", letterSpacing: "3px" }}>city</span>
       </span>
     </NavLink>
   );
@@ -34,7 +43,13 @@ const Nav = (props) => {
 
   const searchBar = (
     <div id="searchBar">
-      <input name="searchbar" type="text" placeholder="Search items by name"></input>
+      <input
+        name="searchbar"
+        type="text"
+        placeholder="Search items by name"
+        value={text}
+        onChange={(e) => onChange(e)}
+      ></input>
       <button id="searchBtn" htmlFor="searchbar" type="submit">
         Search
       </button>
@@ -81,16 +96,28 @@ const Nav = (props) => {
   const userOptions = (
     <ul className="navbar-nav">
       <li className="nav-item">
-        <NavLink to="/" onClick={props.handleLogout} className="nav-link" style={{ marginRight: '10px' }}>
+        <NavLink
+          to="/"
+          onClick={props.handleLogout}
+          className="nav-link"
+          style={{ marginRight: "10px" }}
+        >
           Log Out
         </NavLink>
       </li>
     </ul>
   );
 
-  if (props.from === 'landing' || props.from === 'login' || props.from === 'signup') {
+  if (
+    props.from === "landing" ||
+    props.from === "login" ||
+    props.from === "signup"
+  ) {
     return (
-      <nav className="navbar navbar-expand-md navbar-light" style={{ backgroundColor: '#e4f3fe' }}>
+      <nav
+        className="navbar navbar-expand-md navbar-light"
+        style={{ backgroundColor: "#e4f3fe" }}
+      >
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           {logoBtn}
         </div>
@@ -98,9 +125,16 @@ const Nav = (props) => {
     );
   }
 
-  if (props.from === 'profile' || props.from === 'messages' || props.from === 'chat') {
+  if (
+    props.from === "profile" ||
+    props.from === "messages" ||
+    props.from === "chat"
+  ) {
     return (
-      <nav className="navbar navbar-expand-md navbar-light" style={{ backgroundColor: '#e4f3fe' }}>
+      <nav
+        className="navbar navbar-expand-md navbar-light"
+        style={{ backgroundColor: "#e4f3fe" }}
+      >
         {logoBtn}
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           {mainNavOptions}
@@ -111,7 +145,10 @@ const Nav = (props) => {
   }
 
   return (
-    <nav className="navbar navbar-expand-md navbar-light" style={{ backgroundColor: '#e4f3fe' }}>
+    <nav
+      className="navbar navbar-expand-md navbar-light"
+      style={{ backgroundColor: "#e4f3fe" }}
+    >
       {logoBtn}
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         {mainNavOptions}

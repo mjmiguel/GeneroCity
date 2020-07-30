@@ -25,7 +25,7 @@ class App extends Component {
       isLoggedIn: false,
       allItems: [], // (each item is an object)
       displayedItems: [],
-      displayCat: 'All',
+      displayCat: "All",
       user: {},
       // userEmail: 'Dave',
       // userPoints: '',
@@ -37,10 +37,16 @@ class App extends Component {
       // userCity: '',
       // userState: '',
       // userZip: '',
-      msgRooms: ['Bridget', 'Scott'],
+      msgRooms: ["Bridget", "Scott"],
       /* State for a single item */
-      newItem: { itemTitle: '', itemDescription: '', itemCategory: '', itemImage: '', claimed: false },
-      user_id: '2',
+      newItem: {
+        itemTitle: "",
+        itemDescription: "",
+        itemCategory: "",
+        itemImage: "",
+        claimed: false,
+      },
+      user_id: "2",
       redirect: null,
     };
     this.handleUserChange = this.handleUserChange.bind(this);
@@ -54,6 +60,7 @@ class App extends Component {
     this.handleFileChange = this.handleFileChange.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.checkSession = this.checkSession.bind(this);
+    this.handleSearchbar = this.handleSearchbar.bind(this);
   }
   // check session auth
   componentDidMount() {
@@ -62,12 +69,16 @@ class App extends Component {
 
   // }
   handleUserChange(e) {
-    this.setState({ user: { ...this.state.user, [e.target.name]: e.target.value } });
+    this.setState({
+      user: { ...this.state.user, [e.target.name]: e.target.value },
+    });
     // console.log(this.state);
   }
 
   handleItemChange(e) {
-    this.setState({ newItem: { ...this.state.newItem, [e.target.name]: e.target.value } });
+    this.setState({
+      newItem: { ...this.state.newItem, [e.target.name]: e.target.value },
+    });
   }
   /*--------- Send a message to another user from ItemCard button ------*/
   // somewhere (maybe here) we need a POST request to update both users' 'msgRooms' array in DB
@@ -76,7 +87,7 @@ class App extends Component {
     const newUserMessages = [...this.state.msgRooms];
     newUserMessages.push(`Owner of ${e.target.value}`);
     this.setState({ msgRooms: newUserMessages });
-    this.props.history.push('/messages');
+    this.props.history.push("/messages");
   }
   /*----------- handle file change (image input) (AddItem)-----------------*/
 
@@ -96,9 +107,9 @@ class App extends Component {
     const allItems = this.state.allItems;
     let displayedItems = [];
 
-    if (!categoryName || categoryName === 'All') {
+    if (!categoryName || categoryName === "All") {
       displayedItems = [...this.state.allItems];
-      this.setState({ displayCat: 'All', displayedItems });
+      this.setState({ displayCat: "All", displayedItems });
     } else {
       allItems.forEach((item) => {
         if (item.category === categoryName) displayedItems.push(item);
@@ -110,11 +121,43 @@ class App extends Component {
     }
   }
 
+  handleSearchbar(e) {
+    e.preventDefault();
+    const text = e.target.value;
+    // console.log('get through search bar');
+    const allItems = this.state.allItems;
+    // console.log('text', text)
+    let displayedItems = 
+      [...allItems].filter(item => item.title.toLowerCase().includes(text) || item.description.toLowerCase().includes(text));
+        // console.log("displayitem is also here", displayedItems);
+    console.log(displayedItems);
+    this.setState({...this.state, displayedItems});
+
+    // if (!categoryName || categoryName === "All") {
+    //   displayedItems = [...this.state.allItems];
+    //   this.setState({ displayCat: "All", displayedItems });
+    // } else {
+    //   allItems.forEach((item) => {
+    //     if (item.category === categoryName) displayedItems.push(item);
+    //   });
+    //   this.setState({
+    //     displayCat: categoryName,
+    //     displayedItems: displayedItems,
+    //   });
+    // }
+  }
+
   /*---- POST request to add item to server---- */
   handleSubmit(e) {
     e.preventDefault();
 
-    const { itemTitle, itemDescription, itemCategory, itemImage, claimed } = this.state.newItem;
+    const {
+      itemTitle,
+      itemDescription,
+      itemCategory,
+      itemImage,
+      claimed,
+    } = this.state.newItem;
     const user_id = this.state.user_id;
     const body = {
       title: itemTitle,
@@ -124,11 +167,11 @@ class App extends Component {
       status: claimed,
       user_id,
     };
-    const url = '/item/add';
+    const url = "/item/add";
     fetch(url, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'Application/JSON',
+        "Content-Type": "Application/JSON",
       },
       body: JSON.stringify(body),
     })
@@ -139,7 +182,7 @@ class App extends Component {
         this.setState({ allItems: newItems });
       })
       .catch((err) => {
-        console.log('AddItem Post error: ', err);
+        console.log("AddItem Post error: ", err);
       });
   }
 
@@ -150,39 +193,39 @@ class App extends Component {
     const { userEmail, password } = this.state.user;
     const body = { userEmail, password };
 
-    fetch('/user/login', {
-      method: 'POST',
+    fetch("/user/login", {
+      method: "POST",
       headers: {
-        'Content-Type': 'Application/JSON',
+        "Content-Type": "Application/JSON",
       },
       body: JSON.stringify(body),
     })
       .then((res) => res.json())
       .then((user) => {
-        if(user.isLoggedIn) {
-          this.props.history.push('/');
+        if (user.isLoggedIn) {
+          this.props.history.push("/");
           this.setState({ isLoggedIn: true, user: user, user_id: user._id });
         } else {
-          console.log('invalid username/password');
+          console.log("invalid username/password");
         }
       })
       .catch((err) => {
-        console.log('/LOG-IN Post error: ', err);
-        this.setState({ userEmail: '', password: '' });
+        console.log("/LOG-IN Post error: ", err);
+        this.setState({ userEmail: "", password: "" });
       });
   }
 
   handleLogout() {
-    fetch('/user/logout', {
-      method: 'DELETE',
+    fetch("/user/logout", {
+      method: "DELETE",
     })
       .then((res) => {
         res.json();
-        this.setState({ isLoggedIn: false, user: '', user_id: '' });
-        this.props.history.push('/');
+        this.setState({ isLoggedIn: false, user: "", user_id: "" });
+        this.props.history.push("/");
       })
       .catch((err) => {
-        console.log('/logout DELETE error: ', err);
+        console.log("/logout DELETE error: ", err);
       });
   }
 
@@ -190,9 +233,27 @@ class App extends Component {
   handleSignUpSubmit(e) {
     e.preventDefault();
 
-    const { userFirstName, userLastName, password, userEmail, userStreet, userState, userCity, userZip } = this.state.user;
-    if (!userEmail || !password || !userFirstName || !userLastName || !userCity || !userState) {
-      return console.log('need: email, password, firstname, lastname, city, state');
+    const {
+      userFirstName,
+      userLastName,
+      password,
+      userEmail,
+      userStreet,
+      userState,
+      userCity,
+      userZip,
+    } = this.state.user;
+    if (
+      !userEmail ||
+      !password ||
+      !userFirstName ||
+      !userLastName ||
+      !userCity ||
+      !userState
+    ) {
+      return console.log(
+        "need: email, password, firstname, lastname, city, state"
+      );
     } else {
       const body = {
         userEmail,
@@ -204,25 +265,25 @@ class App extends Component {
         city: userCity,
         state: userState,
       };
-  
-      fetch('/user/signup', {
-        method: 'POST',
+
+      fetch("/user/signup", {
+        method: "POST",
         headers: {
-          'Content-Type': 'Application/JSON',
+          "Content-Type": "Application/JSON",
         },
         body: JSON.stringify(body),
       })
         .then((res) => res.json())
         .then((user) => {
           if (user.isLoggedIn) {
-            this.props.history.push('/');
+            this.props.history.push("/");
             this.setState({ isLoggedIn: true, user: user, user_id: user._id });
           } else {
-            console.log('email already exists');
+            console.log("email already exists");
           }
         })
         .catch((err) => {
-          console.log('AddItem Post error: ', err);
+          console.log("AddItem Post error: ", err);
           // todo - clear all fields with setState
           this.setState({});
         });
@@ -231,32 +292,36 @@ class App extends Component {
 
   // ---------------------check session - called in componentDidMount-------------------------
   checkSession() {
-    fetch('/user/checksession')
+    fetch("/user/checksession")
       .then((res) => res.json())
       .then((user) => {
         if (user.isLoggedIn) {
-          this.props.history.push('/');
+          this.props.history.push("/");
           this.setState({ isLoggedIn: true, user: user, user_id: user._id });
         }
       })
       .catch((err) => {
-        console.log('/api/checksession GET error:', err);
+        console.log("/api/checksession GET error:", err);
       });
   }
 
   /*--- GET Request for All items--- */
   getAllItems() {
     // call in componentDidMount
-    fetch('/item/all')
+    fetch("/item/all")
       .then((res) => res.json())
       .then((res) => {
-        console.log('res', res.items);
+        console.log("res", res.items);
         // update state with array
-        this.setState({ allItems: res.items, displayedItems: res.items, displayCat: '' });
+        this.setState({
+          allItems: res.items,
+          displayedItems: res.items,
+          displayCat: "",
+        });
       })
       // this.props.history.push('/'))
       .catch((err) => {
-        console.log('/item/all GET error: ', err);
+        console.log("/item/all GET error: ", err);
       });
   }
 
@@ -274,6 +339,7 @@ class App extends Component {
               >
                 <Nav
                   from="main"
+                  handleSearchbar={this.handleSearchbar}
                   displayCat={this.state.displayCat}
                   handleFilterChange={this.handleFilterChange}
                   handleLogout={this.handleLogout}
