@@ -5,6 +5,14 @@ const userRouter = require('./routes/userRouter.js');
 const cookieParser = require('cookie-parser');
 const http = require('http');
 const socket = require('socket.io');
+const formatMessage = require("./utils/messages");
+const {
+  userJoin,
+  getCurrentUser,
+  userLeave,
+  getRoomUsers,
+} = require("./utils/users");
+
 // require dotenv to hide server uri
 require('dotenv').config();
 
@@ -20,40 +28,60 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-io.on('connection', (socket) => {
-  console.log('new socket connection!', socket.id);
-  socket.on('join', ({ name, room }, callback) => {
-    // name is user's name, room is the other user's name
-    const { error, user } = addUser({ id: socket.id, name, room });
+const botName = "Generosity Bot";
+/**
+ * 
+ * 
+ */
+// Run when client connects
+io.on("connection", (socket) => {
+  socket.on("joinRoom", ({ username, room }) => {
+    const user = userJoin(socket.id, username, room);
 
-    if (error) return callback(error);
+    socket.join(user.room);
 
-    socket.join(user.room); // joins suer to room
-    socket.emit('message', { user: 'admin', text: `Hi, ${user.name}, you are now chatting with ${user.room}!` });
-    socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined!` });
+    // Welcome current user
+    socket.emit("message", formatMessage(botName, "Welcome to ChatCord!"));
+
+    // Broadcast when a user connects
+    socket.broadcast
+      .to(user.room)
+      .emit(
+        "message",
+        formatMessage(botName, `${user.username} has joined the chat`)
+      );
+
+    // Send users and room info
+    io.to(user.room).emit("roomUsers", {
+      room: user.room,
+      users: getRoomUsers(user.room),
+    });
   });
 
-  socket.on('sendMessage', (message, callback) => {
-    const user = getUser(socket.id);
-
-    io.to(user.room).emit('message', { user: user.name, text: message });
-    // SEND ROOMDATA TO ROOM ON CONNECTION
-    io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
-
-    callback();
+  // Listen for chatMessage
+  socket.on("chatMessage", (msg) => {
+    const user = getCurrentUser(socket.id);
+    io.to(user.room).emit("message", formatMessage(user.username, msg));
   });
 
-  socket.on('disconnect', () => {
-    console.log('socket disconnected');
-    const user = removeUser(socket.id);
+  // Runs when client disconnects
+  socket.on("disconnect", () => {
+    const user = userLeave(socket.id);
 
     if (user) {
-      io.to(user.room).emit('message', { user: 'Admin', text: `${user.name} has left.` });
-      io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+      io.to(user.room).emit(
+        "message",
+        formatMessage(botName, `${user.username} has left the chat`)
+      );
+
+      // Send users and room info
+      io.to(user.room).emit("roomUsers", {
+        room: user.room,
+        users: getRoomUsers(user.room),
+      });
     }
   });
 });
-// from client, send message to scoket when room is created
 
 // Handle Requests for Static Files
 app.use('/', express.static(path.resolve(__dirname, '../')));
