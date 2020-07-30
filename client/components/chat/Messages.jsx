@@ -17,9 +17,10 @@ const Messages = (props) => {
     we want to create a button (list item) for each connection 
     that displays only the OTHER users name.-------*/
 
-  const listOfRooms = props.msgRooms.map((user) => {
+  const listOfRooms = props.msgRooms.map((user, index) => {
     return (
       <button
+        key={index}
         type="button"
         className="list-group-item list-group-item-action"
         value={user}
