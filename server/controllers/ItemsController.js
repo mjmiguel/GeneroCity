@@ -20,12 +20,12 @@ ItemsController.getAllItems = (req, res, next) => {
 };
 
 ItemsController.postItem = (req, res, next) => {
-  const { title, description, image, category, status, user_id } = req.body;
+  const { title, description, image, category, status, user_id, image_2, image_3, image_4 } = req.body;
 
   const query = {
     text:
-      'INSERT INTO public.items(title, description, image, category, status, user_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
-    values: [title, description, image, category, status, user_id],
+      'INSERT INTO public.items(title, description, image, category, status, user_id, image_2, image_3, image_4) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
+    values: [title, description, image, category, status, user_id, image_2, image_3, image_4],
   };
 
   db.query(query, (err, data) => {
@@ -43,24 +43,25 @@ ItemsController.postItem = (req, res, next) => {
 
 ItemsController.editUserItem = (req, res, next) => {
   const { item_id } = req.params;
-  const { title, description, image, category, status } = req.body;
+  const { title, description, image, category, status, image_2, image_3, image_4 } = req.body;
   const queryObj = {
     title: title,
     description: description,
     image: image,
     category: category,
     status: status,
+    image_2: image_2,
+    image_3: image_3,
+    image_4: image_4,
   };
 
-  let queryStart = `UPDATE public.items SET `;
-  const queryEnd = `WHERE _id=${item_id}`;
+  let query = ``;
 
   for (let val in queryObj) {
     if (queryObj[val]) {
-      queryStart += `${val}='${queryObj[val]}' `;
+      query += `UPDATE public.items SET ${val}='${queryObj[val]}' WHERE _id=${item_id}; `;
     }
   }
-  const query = queryStart + queryEnd;
 
   db.query(query, (err, data) => {
     if (err) {

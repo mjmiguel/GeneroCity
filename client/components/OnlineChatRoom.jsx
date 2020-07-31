@@ -77,9 +77,9 @@ export default function OnelineChatRoom(props) {
     <div class="chat-container">
       <header class="chat-header">
         <h1>
-          <i class="fas fa-smile"></i> Generosity Chat Room
+          <i class="fas fa-smile"></i> Generosify
         </h1>
-        <a href="index.html" class="btn">
+        <a href="" class="btn" onClick={(e) => { props.history.push('/')}}>
           Leave Room
         </a>
       </header>
