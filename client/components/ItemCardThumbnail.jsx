@@ -9,7 +9,7 @@ class ItemCardThumbnail extends Component {
 
   render() {
     // this.props.thumbURL created in ItemCard.jsx while returning the ItemCardThumbnail div
-    return <img src={this.props.thumbURL} width="80" />;
+    return <img src={this.props.thumbURL} width="80" height="165" />;
   }
 }
 

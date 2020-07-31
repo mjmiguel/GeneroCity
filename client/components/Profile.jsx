@@ -34,7 +34,7 @@ class Profile extends Component {
   handleFileChange(e) {
     console.log('input Image:', e.target.value);
     this.setState({
-      itemImage: e.target.value,
+      [e.target.name]: e.target.value,
     });
   }
 
@@ -64,7 +64,7 @@ class Profile extends Component {
   /*--- POST request to edit item to server---- */
   handleSubmit(e) {
     e.preventDefault();
-    const { itemTitle, itemDescription, itemCategory, itemImage, claimed } = this.state;
+    const { itemTitle, itemDescription, itemCategory, itemImage, claimed, itemImage2, itemImage3, itemImage4 } = this.state;
     const itemId = this.state._id;
     const body = {
       title: itemTitle,
@@ -72,6 +72,9 @@ class Profile extends Component {
       image: itemImage,
       category: itemCategory,
       status: claimed,
+      image_2: itemImage2,
+      image_3: itemImage3,
+      image_4: itemImage4,
     };
 
     console.log('submit EditItem req body:', body);

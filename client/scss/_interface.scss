@@ -15,18 +15,44 @@ h6 {
   margin-top: 5px;
   margin-right: 10px;
 }
+
+/* container containing items grid container */
+.containerContainer {
+  display: flex;
+  justify-content: center;
+}
+
 /* items grid container */
+// .itemsContainer {
+//   padding: 3rem;
+//   display: grid;
+//   align-self: flex-end;
+//   justify-self: center;
+//   grid-template-columns: 20fr 20fr 20fr 20fr 20fr; /*can add a media query for smaller screens/responsivity*/
+//   max-width: 1200px;
+// }
+
 .itemsContainer {
-  padding: 3rem;
-  display: grid;
-  justify-self: center;
-  grid-template-columns: 20fr 20fr 20fr 20fr 20fr; /*can add a media query for smaller screens/responsivity*/
-  max-width: 1200px;
+  display: flex;
+  flex-wrap: wrap;
 }
 /* card container: which includes everything within a card */
 .card {
   margin: 10px;
   width: 250px;
+}
+
+.cardTitle {
+  display: flex;
+  justify-content: center; // center title on card
+}
+
+.cardBody {
+  height: 120px; //kind of a cheat. Trying to be aligned to the bottom of the div
+  padding: 10px; //padding around the card body (to get off border)
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 /* thumbnail container: includes thumbnails below main product image */
@@ -80,11 +106,33 @@ h6 {
 } */
 
 #filterBox {
-  margin-right: 40px;
+  margin-right: 200px;
 }
 
 #filterBox select {
   font-size: $bodytext;
+}
+#searchBar {
+  width: 50%;
+}
+
+#searchBtn {
+  margin-left: 5px;
+  padding: 5px;
+  border: solid 1px rgba(156, 156, 156, 0.178);
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 1px 2px 2px rgba(11, 11, 22, 0.171);
+}
+
+#searchBar input {
+  width: 60%;
+  height: 30px;
+  border-radius: 5px;
+  border: solid 1px rgba(156, 156, 156, 0.178);
+  font-size: $bodytext;
+  box-shadow: 1px 2px 2px rgba(11, 11, 22, 0.171);
+  padding-left: 10px;
 }
 
 .navbar-light {
