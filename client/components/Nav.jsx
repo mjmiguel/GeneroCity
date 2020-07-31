@@ -31,6 +31,16 @@ const Nav = (props) => {
       </li>
     </ul>
   );
+
+  const searchBar = (
+    <div id="searchBar">
+      <input name="searchbar" type="text" placeholder="Search items by name"></input>
+      <button id="searchBtn" htmlFor="searchbar" type="submit">
+        Search
+      </button>
+    </div>
+  );
+
   const filterBox = (
     <div id="filterBox">
       <select
@@ -106,6 +116,7 @@ const Nav = (props) => {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         {mainNavOptions}
         {filterBox}
+        {searchBar}
         {userOptions}
       </div>
     </nav>
