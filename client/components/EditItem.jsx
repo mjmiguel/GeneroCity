@@ -48,10 +48,7 @@ class EditItem extends Component {
           {/** ------- Category -------- */}
 
           <div className="form-group row">
-            <label
-              htmlFor="exampleFormControlSelect1"
-              className="col-sm-2 col-form-label col-form-label-md"
-            >
+            <label htmlFor="exampleFormControlSelect1" className="col-sm-2 col-form-label col-form-label-md">
               Category
             </label>
             <div className="col-sm-10">
@@ -90,24 +87,37 @@ class EditItem extends Component {
           <div className="input-group mb-3">
             <div className="custom-file">
               <input
-                type="file"
-                className="custom-file-input"
-                id="inputGroupFile02"
+                type="text"
+                className="form-control form-control-lg"
+                id="colFormLabelLg"
+                placeholder="New Main Photo URL"
                 name="itemImage"
                 onChange={(e) => this.props.handleFileChange(e)}
               ></input>
-              <label
-                className="custom-file-label"
-                htmlFor="inputGroupFile02"
-                aria-describedby="inputGroupFileAddon02"
-              >
-                Choose file
-              </label>
-            </div>
-            <div className="input-group-append">
-              <span className="input-group-text" id="inputGroupFileAddon02">
-                Upload
-              </span>
+              <input
+                type="text"
+                className="form-control form-control-lg"
+                id="inputGroupFile02"
+                placeholder="New Photo 2 URL"
+                name="itemImage2"
+                onChange={(e) => this.props.handleFileChange(e)}
+              ></input>
+              <input
+                type="text"
+                className="form-control form-control-lg"
+                id="inputGroupFile03"
+                placeholder="New Photo 3 URL"
+                name="itemImage3"
+                onChange={(e) => this.props.handleFileChange(e)}
+              ></input>
+              <input
+                type="text"
+                className="form-control form-control-lg"
+                id="inputGroupFile04"
+                placeholder="New Photo 4 URL"
+                name="itemImage4"
+                onChange={(e) => this.props.handleFileChange(e)}
+              ></input>
             </div>
           </div>
         </form>
