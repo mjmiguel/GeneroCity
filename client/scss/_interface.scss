@@ -195,19 +195,3 @@ select {
 .msgContainer {
   box-shadow: 1px 1px 25px rgba(22, 22, 22, 0.171);
 }
-
-/* ----------------Media Queries------------------ */
-/* TODO: */
-/* -add media query for smallest screen size */
-
-@media (max-width: 1550px) {
-  .itemsContainer {
-    grid-template-columns: 25fr 25fr 25fr 25fr; /*can add a media query for smaller screens/responsivity*/
-  }
-}
-@media (max-width: 950px) {
-  .itemsContainer {
-    grid-template-columns: 33fr 33fr 33fr; /*can add a media query for smaller screens/responsivity*/
-    justify-content: space-around;
-  }
-}
